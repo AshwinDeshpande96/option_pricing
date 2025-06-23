@@ -22,12 +22,21 @@ title: Option Pricing
 email: ashwindeshpande96@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   I write paper reviews and blogs to explain concepts in Option Pricing. 
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/option_pricing" # the subpath of your site, e.g. /blog
+url: "https://ashwindeshpande96.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: tag_ashwin
 github_username:  ashwindeshpande96
 # linkedin_username: ashwin-deshpande-li96
 # Build settings
+minima:
+  date_format: "%b %-d, %Y"
+  # generate social links in footer
+  social_links:
+    twitter: tag_ashwin
+    github: ashwindeshpande96
+    linkedin: ashwin-deshpande-li96
+
+markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
