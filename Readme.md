@@ -1,8 +1,5 @@
-<h3>Index</h3>
+# Index
 
-<ul>
-  <li><a href="./forward_rate.md">Forward Rates</a></li>
-<!--   <li>Tea</li>
-  <li>Milk</li> -->
-</ul>
+* <a href="./forward_rate.md">Forward Rates</a>
+
 
