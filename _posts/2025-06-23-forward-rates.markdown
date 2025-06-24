@@ -43,8 +43,8 @@ We have <a style="text-align:right;" name="eq-fr">Equation (3)</a>,
 $$ \left( 1+\frac{r_{j}}{n_{j}}\right) ^ {j} = \left( 1+\frac{r_{i}}{n_{i}}\right) ^ {i} \cdot \left( 1+\frac{f_{i,j}}{n}\right) ^ {j-1} $$
 
 For example we have a 2-year & 1-year zero coupon bond, trading at \\$96 and \\$95 respectively, each compounding once a year. From [Eq(2)](#eq-dc)
-* $B1 \rightarrow 96 = \frac{100}{(1 + r_{2})^2} \Rightarrow r_{j} = 2.0621\\%$
-* $B2 \rightarrow 95 = \frac{100}{1 + r_{1}} \Rightarrow r_{i} = 5.2632\\%$
+* $B1 \rightarrow 96 = \frac{100}{(1 + r_{2})^2} \Rightarrow r_{2} = 2.0621\\%$
+* $B2 \rightarrow 95 = \frac{100}{1 + r_{1}} \Rightarrow r_{1} = 5.2632\\%$
 
 From [Eq(3)](#eq-fr),
 
@@ -63,7 +63,7 @@ B3 =
     \begin{cases}
       B1 \times -\frac{100}{96} \text{at T = 0}\\
       B2 \times +\frac{50}{95} \text{at T = 0}\\
-      B2 \times +\frac{50}{95} \text{at T = 1 if r2 > $f_{1,2}$}
+      B2 \times +\frac{50}{95} \text{at T = 1 if $r_{2} > f_{1,2}$}
     \end{cases} 
 $$
 
@@ -78,7 +78,7 @@ We believe $f_{1,2}$ is low i.e. $PV(B1)$ is high since $yield \propto \frac{1}{
 
 1. We enter a long position on B3.
 2. After 1-year T = 1, we will receieve $\frac{50}{95}\cdot 100 = \\$52.631$  as B2 expires with P&L $ = -50 + 52.631 = 2.631$. 
-2. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r2 = -1.04\%$ or $PV(B2) = $101.05 ). After 1-year, let's say spot rate of B2 is $r2 = 4.0\%$ which $ > -1.04\\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.1538$) low than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$50 worth of 1-year bond B2 $\frac{50}{96.15}$ at $T=1$. This brings our total cost of investment to 0. This would require a margin account but we can see that it is possible to make profits using 0 initial cost. 
+3. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r_2 = -1.04\%$ or $PV(B2) = $101.05 ). After 1-year, let's say spot rate of B2 is $r_2 = 4.0\%$ which $ > -1.04\\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.1538$) low than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$50 worth of 1-year bond B2 $\frac{50}{96.15}$ at $T=1$. This brings our total cost of investment to 0. This would require a margin account but we can see that it is possible to make profits using 0 initial cost. 
 4. At time $T=2$ we receive $\frac{50}{96.15}\cdot 100 = \\$52.00$ with P&L on B2 $ = -50 + 52.00 = 2.00$. We have to pay $\frac{100}{96}\cdot 100 = \\$104.166$ with P&L on B1 $ = 100 - 104.166 = -4.166$
 5. Due to mispriced products in the bond market we were able to make $ 2.631 + 2.00 - 4.166 = 0.465$ arbitrage profit with \$0 initial cost.
 
