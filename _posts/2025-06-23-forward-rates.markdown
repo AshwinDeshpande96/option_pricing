@@ -79,8 +79,8 @@ We believe $f_{1,2}$ is low i.e. $PV(B1)$ is high since $yield \propto \frac{1}{
 1. We enter a long position on B3.
 2. After 1-year T = 1, we will receieve $\frac{50}{95}\cdot 100 = \\$52.631$  as B2 expires with P&L $ = -50 + 52.631 = 2.631$. 
 3. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r_2 = -1.04\%$ or $PV(B2) = $101.05 ). After 1-year, let's say spot rate of B2 is $r_2 = 4.0\%$ which $ > -1.04\\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.1538$) low than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$50 worth of 1-year bond B2 $\frac{50}{96.15}$ at $T=1$. This brings our total cost of investment to 0. This would require a margin account but we can see that it is possible to make profits using 0 initial cost. 
-4. At time $T=2$ we receive $\frac{50}{96.15}\cdot 100 = \\$52.00$ with P&L on B2 $ = -50 + 52.00 = 2.00$. We have to pay $\frac{100}{96}\cdot 100 = \\$104.166$ with P&L on B1 $ = 100 - 104.166 = -4.166$
-5. Due to mispriced products in the bond market we were able to make $ 2.631 + 2.00 - 4.166 = 0.465$ arbitrage profit with \$0 initial cost.
+4. At time $T=2$ we receive $\frac{50}{96.15}\cdot 100 = \\$52.00$ with P&L on B2 $ = -50 + 52.00 = 2.00$. We have to pay $\frac{100}{96}\cdot 100 = \\$104.166$ with P&L on B1 $ = 100 - 104.166 = -4.166$. Total Profit = $ 2.631 + 2.00 - 4.166 = 0.465$
+5. Due to mispriced products in the bond market we were able to make arbitrage profit with \$0 initial cost.
 
 
 Here is some basic python code to find forward rate.
