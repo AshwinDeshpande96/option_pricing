@@ -6,9 +6,7 @@ categories: [intro]
 hidden: true
 # published: false
 ---
-We look at trading opportunities when we identify mispriced products in the bond market. 
-
-***Note:** these are under deterministic payoff conditions (we are certain that a product has a known and fixed interest rate *r%*)*
+We look at trading opportunities when we identify mispriced products in the bond market. These are under deterministic payoff conditions (we are certain that a product has a known and fixed interest rate *r%*)
 
 ### Law of one price
 
