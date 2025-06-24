@@ -42,52 +42,48 @@ We have <a style="text-align:right;" name="eq-fr">Equation (3)</a>,
 
 $$ \left( 1+\frac{r_{j}}{n_{j}}\right) ^ {j} = \left( 1+\frac{r_{i}}{n_{i}}\right) ^ {i} \cdot \left( 1+\frac{f_{i,j}}{n}\right) ^ {j-1} $$
 
-For example we have a 2-year & 1-year zero coupon bond, trading at \\$89 and \\$95 respectively, each compounding once a year. From [Eq(2)](#eq-dc)
-* $B1 \rightarrow 89 = \frac{100}{(1 + r_{j})^2} \Rightarrow r_{j} = 5.9998\\%$
-* $B2 \rightarrow 95 = \frac{100}{1 + r_{i}} \Rightarrow r_{i} = 5.2632\\%$
+For example we have a 2-year & 1-year zero coupon bond, trading at \\$96 and \\$95 respectively, each compounding once a year. From [Eq(2)](#eq-dc)
+* $B1 \rightarrow 96 = \frac{100}{(1 + r_{2})^2} \Rightarrow r_{j} = 2.0621\\%$
+* $B2 \rightarrow 95 = \frac{100}{1 + r_{1}} \Rightarrow r_{i} = 5.2632\\%$
 
 From [Eq(3)](#eq-fr),
 
-$$ \left( 1+ 0.059998\right) ^ {2} = \left( 1+ 0.052632\right)\cdot \left( 1+f_{i,j}\right) $$
+$$ \left( 1+ 0.020621\right) ^ {2} = \left( 1+ 0.052632\right)\cdot \left( 1+f_{1,2}\right) $$
 
-$$ \Rightarrow f_{i,j} = 6.7416\% $$
+$$ \Rightarrow f_{1,2} = -1.04\% $$
 
-This implies that the 2-year bond will appreciate by *~5.3%* in the first year(Since $r2 = 5.2632\\%$) and *~6.7%* in the second year i.e. a significant change in the 1-year bond rate at $T=1$.
+This implies that the 2-year bond will change by *5.3%* in the first year and *-1.0%* in the second year i.e. a significant change in the 1-year bond rate at $T=1$.
 
-### How to trade if our estimates show $f_{i,j}$ is high?
+### How to trade if our estimates show $f_{1,2}$ is low?
 
 Let's design a product with a combination of the above two bonds (assuming we can trade fractional quantities)
 
 $$
 B3 =
     \begin{cases}
-      B1 \times +\frac{100}{89}\\
-      B2 \times -\frac{50}{95}\\
+      B1 \times -\frac{100}{96} \text{at T = 0}\\
+      B2 \times +\frac{50}{95} \text{at T = 0}\\
+      B2 \times +\frac{50}{95} \text{at T = 1 if r2 > $f_{1,2}$}
     \end{cases} 
 $$
 
-If we are 
-* long(Buy) on B3 we buy \\$100 worth 2-year bond B1 and sell \\$50 worth 1-year bond B2
-* short(Sell) on B3 we sell \\$100 worth 2-year bond B1 and buy \\$50 worth 1-year bond B2
+B3 also has a maturity of 2-years because of B1. 
+At T =0, if we are 
+* long(Buy) on B3 we sell \\$100 worth 2-year bond B1 and buy \\$50 worth 1-year bond B2
+* short(Sell) on B3 we buy \\$100 worth 2-year bond B1 and sell \\$50 worth 1-year bond B2
 
-the initial account balance for the long position is $ = 100 - 50 = 50$ and $-50$ for short. 
+the entry price for the long position is $< 0$. 
 
-Let's say we decide to go long B3 and hold till maturity. B3 also has a maturity of 2-years because of B1. 
-* We are required to pay $\frac{50}{95}\cdot 100 = \\$52.6315$ after 1-year as B2 expires with P&L $ = 50 - 52.6316 = -2.6316$. 
-* Additionally, we receive $\frac{100}{89}\cdot 100 = \\$112.36$ as B1 expires at T=2 with P&L on B2 $ = -100 + 112.36 = 12.36$. 
-
-On a simple trade (no arbitrage) we make Total Closing P&L = $12.36 - 2.6316 = 9.7284$ with \\$50 investment or $\frac{9.7248}{50} \times 100 = 19.45\%$ total returns.
-
-We believe $f_{i,j}$ is high i.e. $PV(B1)$ is low since $yield \propto \frac{1}{price}$. We also believe $PV(B2)$ is at its fair value. According to this, B1 is underpriced, this allows us buy B1 at low price before it goes back to it's fair value - at which point we are looking to sell and make profit. We can exploit market conditions with the following trade.
+We believe $f_{1,2}$ is low i.e. $PV(B1)$ is high since $yield \propto \frac{1}{price}$. We also believe $PV(B2)$ is at its fair value. According to this, B1 is overpriced, this allows us sell B1 at high price before it goes back to it's fair value - at which point we are looking to buy back and make profit. We can exploit market conditions with the following trade.
 
 1. We enter a long position on B3.
-2. After a year $T=1$, since we still hold the 2-year bond (equivalent to buying a 1-year bond at $\Rightarrow r2 = 6.7416$ or $PV(B2) = $93.68)
-3. At $T=1$ let's say spot rate of B2 is $r2 = 6.0\%$ which $ < 6.7\\%$ and $PV(B2) = 94.33$ i.e. 1-year bond B2 is priced higher than the 1-year position we hold on 2-year bond B1. Then we sell another \\$50 worth of 1-year bond B2 $\frac{50}{94.33}$ at $T=1$. This brings our total cost of investment to 0.
-4. At time $T=2$ we have to pay $\frac{50}{94.33}\cdot 100 = \\$53.005$ with P&L on B2 $ = 50 - 53.005 = -3.005$
-5. Due to mispriced products in the bond market we were able to make $ 9.7284 - 3.005 = 6.7234$ arbitrage profit with \$0 initial cost.
+2. After 1-year T = 1, we will receieve $\frac{50}{95}\cdot 100 = \\$52.631$  as B2 expires with P&L $ = -50 + 52.631 = 2.631$. 
+2. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r2 = -1.04\%$ or $PV(B2) = $101.05 ). After 1-year, let's say spot rate of B2 is $r2 = 4.0\%$ which $ > -1.04\\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.1538$) low than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$50 worth of 1-year bond B2 $\frac{50}{96.15}$ at $T=1$. This brings our total cost of investment to 0. This would require a margin account but we can see that it is possible to make profits using 0 initial cost. 
+4. At time $T=2$ we receive $\frac{50}{96.15}\cdot 100 = \\$52.00$ with P&L on B2 $ = -50 + 52.00 = 2.00$. We have to pay $\frac{100}{96}\cdot 100 = \\$104.166$ with P&L on B1 $ = 100 - 104.166 = -4.166$
+5. Due to mispriced products in the bond market we were able to make $ 2.631 + 2.00 - 4.166 = 0.465$ arbitrage profit with \$0 initial cost.
 
 
-Here is some basic in python to find forward rate.
+Here is some basic python code to find forward rate.
 
 ```python 
 def forward_rate(pv1, pv2, m1, m2, n1=1, n2=1, n3=1):
