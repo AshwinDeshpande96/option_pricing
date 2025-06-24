@@ -2,7 +2,7 @@
 layout: post
 title:  "Forward Rates"
 date:   2025-06-23 12:30:48 -0500
-categories: [intro]
+categories: [option_pricing]
 hidden: true
 # published: false
 ---
@@ -85,3 +85,36 @@ We believe $f_{i,j}$ is high i.e. $PV(B1)$ is low since $yield \propto \frac{1}{
 3. At $T=1$ let's say spot rate of B2 is $r2 = 6.0\%$ which $ < 6.7\\%$ and $PV(B2) = 94.33$ i.e. 1-year bond B2 is priced higher than the 1-year position we hold on 2-year bond B1. Then we sell another \\$50 worth of 1-year bond B2 $\frac{50}{94.33}$ at $T=1$. This brings our total cost of investment to 0.
 4. At time $T=2$ we have to pay $\frac{50}{94.33}\cdot 100 = \\$53.005$ with P&L on B2 $ = 50 - 53.005 = -3.005$
 5. Due to mispriced products in the bond market we were able to make $ 9.7284 - 3.005 = 6.7234$ arbitrage profit with \$0 initial cost.
+
+
+Here is some basic in python to find forward rate.
+
+```python 
+def forward_rate(pv1, pv2, m1, m2, n1=1, n2=1, n3=1):
+    assert m2 > m1
+    # spot rate of the shorter bond
+    r1 = math.pow((100/pv1), 1/m1) - 1
+    r1 *= n1
+    # spot rate of the longer bond
+    r2 = math.pow((100/pv2), 1/m2) - 1
+    r2 *= n2
+    
+    # forward rate
+    m12 = m2-m1
+    f12 = math.pow(1+r2/n2, m2)/math.pow(1+r1/n1, m1)
+    f12 = math.pow(f12, (1/m12)) - 1
+    f12 *= n3
+    
+    return r1, r2, f12
+
+r1, r2, f12 = forward_rate(pv1, pv2, m1, m2, n1, n2)
+
+print(f"r1: {r1*100:.4f}%\nr2: {r2*100:.4f}%\nf12: {f12*100:.4f}%")
+```
+
+Output:
+```
+r1: 5.2632%
+r2: 5.9998%
+f12: 6.7416%
+```
