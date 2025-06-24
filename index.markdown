@@ -4,12 +4,5 @@
 
 layout: home
 ---
-<script async src="https://cse.google.com/cse.js?cx=d6152147f4fb24abf"></script>
-<div class="gcse-search"></div>
 
-<style>
-.gcse-search {
-  margin: 20px auto;
-  max-width: 600px;
-}
-</style>
+Welcome! This is a website where I write about my research interests. 

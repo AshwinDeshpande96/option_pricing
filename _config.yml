@@ -18,15 +18,17 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Option Pricing
+title: Ashwin Deshpande
 email: ashwindeshpande96@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  I write paper reviews and blogs to explain concepts in Option Pricing. 
-baseurl: "/option_pricing" # the subpath of your site, e.g. /blog
-url: "https://ashwindeshpande96.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+  Exploring the world on the shoulders of giants! 
+# baseurl: "/option_pricing" # the subpath of your site, e.g. /blog
+# url: "https://ashwindeshpande96.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: tag_ashwin
 github_username:  ashwindeshpande96
-# linkedin_username: ashwin-deshpande-li96
+linkedin_username: ashwin-deshpande-li96
+permalink: /:categories/:year/:month/:day/:title/
+
 # Build settings
 minima:
   date_format: "%b %-d, %Y"
