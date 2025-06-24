@@ -22,8 +22,8 @@ title: Ashwin Deshpande
 email: ashwindeshpande96@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Exploring the world on the shoulders of giants! 
-# baseurl: "/option_pricing" # the subpath of your site, e.g. /blog
-# url: "https://ashwindeshpande96.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/personal_webpage" # the subpath of your site, e.g. /blog
+url: "https://ashwindeshpande96.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: tag_ashwin
 github_username:  ashwindeshpande96
 linkedin_username: ashwin-deshpande-li96
