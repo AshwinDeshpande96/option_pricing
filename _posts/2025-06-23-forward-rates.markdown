@@ -82,29 +82,25 @@ At T = 0, if we are
 * short(Sell) on B3 we sell \\$100 worth 2-year bond B1 and buy \\$50 worth 1-year bond B2
 
 The entry price for the long position is $0$. This is the first condition of our arbitrage profit. Let's list all possible future states after 1-year.
-1. $r_{2} = 6.7416\%$ at T = 0
+1. $r_{2} \geq 6.7416\%$ at T = 0
 2. $r_{2} < 6.7416\%$ at T = 0
-2. $r_{2} > 6.7416\%$ at T = 0
 
-#### Future State 1: $r_{2} = 6.7416\%$
+#### Future State 1: $r_{2} \geq 6.7416\%$
 
 In this case there is no arbitrage profit, however there is no loss. This requires us to make no additional trade. FV $\rightarrow$ Face Value.
 
 * We would have to pay $Qty_{B1} \cdot FV_{B1} = \frac{100}{95}\cdot 100 = \\$105.2632$ after 1-year. 
 * Additionally, receive $Qty_{B2} \cdot FV_{B2} = \frac{100}{89}\cdot 100 = \\$112.3595$ after 2-years. 
-* We then make $ 105.2632 - 112.3595 = 7.0964$ profit, however this is not arbitrage profit.
+* We then make $ 105.2632 - 112.3595 = 7.0964$ profit.
 
 #### Future State 2: $r_{2} < 6.7416\%$
 
 We can exploit market conditions with the following trade.
 
 1. We enter a long position on B3.
-2. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r_2 = 6.7416\%$ or $PV(B2) = $93.68). After 1-year, let's say spot rate of B2 is $r_2 = 4.0\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.15$) lower than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$100 worth of 1-year bond B2 at $T=1$. This brings our total cost of investment to -100. This keeps our initial cost at $\leq 0$.
-3. At time $T=2$ we have to pay $\frac{100}{96.15}\cdot 100 = \\$104.004$ with P&L on B2 $ = -100 + 104.004 = -4.004$. Total Profit = $ 7.0964 - 4.004 = 3.0924$. This can be called arbitrage profit.
-
-#### Future State 3: $r_{2} > 6.7416\%$
-
-In this case we do not make any additional trades and hence is the same as Future state 1. We are not at risk to incur losses.
+2. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r_2 = 6.7416\%$ or $PV(B2) = $93.68). After 1-year, let's say spot rate of B2 is $r_2 = 4.0\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.15$) lower than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$100 worth of 1-year bond B2 at $T=1$. This brings our total cost of investment to -100. This keeps our initial cost at $\leq 0$. 
+3. At time $T=2$ we have to pay $\frac{100}{96.15}\cdot 100 = \\$104.004$ with P&L on B2 $ = -100 + 104.004 = -4.004$. Total Profit = $ 7.0964 - 4.004 = 3.0924$. 
+4. It would be possible to invest the \\$100 received in the beginning of the year-1 on some other product and make $ \geq 4.004$ in profits or choose to not make additional trades to mitigate reduced P&L.
 
 *We can conclude that above opportunity gives us a arbitrage profit since we make $\leq 0$ initial investment, there is no risk of loss in all future states, and there is a positive profit in atleast one future state.*
 
