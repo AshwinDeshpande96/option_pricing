@@ -51,7 +51,7 @@ We have <a style="text-align:right;" name="eq-fr">Equation (3)</a>,
 
 $$ \left( 1+\frac{r_{j}}{n_{j}}\right) ^ {j} = \left( 1+\frac{r_{i}}{n_{i}}\right) ^ {i} \cdot \left( 1+\frac{f_{i,j}}{n}\right) ^ {j-1} $$
 
-For example we have a 2-year & 1-year zero coupon bond, trading at \\$89 and \\$95 respectively, each compounding once a year. From [Eq(2)](#eq-dc)
+For example we have a 2-year & 1-year zero coupon bond, trading at \\$89 and \\$95 respectively, each compounding once a year. These are priced such that it equates to 1 quantity resulting in a face value $100 by maturity.  From [Eq(2)](#eq-dc)
 * $B1 \rightarrow 89 = \frac{100}{(1 + r_{2})^2} \Rightarrow r_{2} = 5.9998\\%$
 * $B2 \rightarrow 95 = \frac{100}{1 + r_{1}} \Rightarrow r_{1} = 5.2632\\%$
 
@@ -65,14 +65,14 @@ This implies that the 2-year bond will change by *5.3%* in the first year and *6
 
 ### How to trade if our estimates show $f_{1,2}$ is high?
 
-We know $PV(B1)$ is underpriced $\left(yield \propto \frac{1}{price}\right)$. According to this, B1 is underpriced, this allows us buy B1 at low price before it goes back to it's fair value - at which point we sell and make profit.
+We know $PV(B1)$ is underpriced $\left(yield \propto \frac{1}{price}\right)$. According to this, B1 is underpriced, this allows us to buy B1 at low price before it goes back to it's fair value - at which point we sell and make profit.
 Let's design a product with a combination of the above two bonds (assuming we can trade fractional quantities)
 
 $$
 B3 =
     \begin{cases}
-      B1 \times +\frac{100}{89} \\
-      B2 \times -\frac{100}{95} 
+      B1 \times +\frac{100}{89} \text{qty} \\
+      B2 \times -\frac{100}{95} \text{qty}
     \end{cases} 
 $$
 
@@ -81,7 +81,7 @@ At T = 0, if we are
 * long(Buy) on B3 we buy \\$100 worth 2-year bond B1 and sell \\$100 worth 1-year bond B2
 * short(Sell) on B3 we sell \\$100 worth 2-year bond B1 and buy \\$50 worth 1-year bond B2
 
-The entry price for the long position is $0$. This is the first condition of our arbitrage profit. Let's list all possible future states after 1-year.
+The entry price for the either long/short position is $0$. This is the first condition of our arbitrage profit. Let's list all possible future states after 1-year.
 1. $r_{2} \geq 6.7416\%$ at T = 0
 2. $r_{2} < 6.7416\%$ at T = 0
 
@@ -98,9 +98,9 @@ In this case there is no arbitrage profit, however there is no loss. This requir
 We can exploit market conditions with the following trade.
 
 1. We enter a long position on B3.
-2. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r_2 = 6.7416\%$ or $PV(B2) = $93.68). After 1-year, let's say spot rate of B2 is $r_2 = 4.0\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.15$) lower than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$100 worth of 1-year bond B2 at $T=1$. This brings our total cost of investment to -100. This keeps our initial cost at $\leq 0$. 
+2. After a year $T=1$, since we still hold the 2-year bond (equivalent to selling a 1-year bond at $\Rightarrow r_2 = 6.7416\% \text{ or } PV(B2) = \\$93.68$). After 1-year, let's say spot rate of B2 is $r_2 = 4.0\%$ i.e. 1-year bond B2 is priced ($PV(B2) = \\$96.15$) lower than the 1-year position we hold on 2-year bond B1. Then we can buy another \\$100 worth of 1-year bond B2 at $T=1$. This brings our total cost of investment to -100. This keeps our initial cost at $\leq 0$. 
 3. At time $T=2$ we have to pay $\frac{100}{96.15}\cdot 100 = \\$104.004$ with P&L on B2 $ = -100 + 104.004 = -4.004$. Total Profit = $ 7.0964 - 4.004 = 3.0924$. 
-4. It would be possible to invest the \\$100 received in the beginning of the year-1 on some other product and make $ \geq 4.004$ in profits or choose to not make additional trades to mitigate reduced P&L.
+4. It would be possible to invest the \\$100 received in the beginning of year-1 on some other product and make $ \geq 4.004$ in profits or choose to not make additional trades to mitigate reduced P&L.
 
 *We can conclude that above opportunity gives us a arbitrage profit since we make $\leq 0$ initial investment, there is no risk of loss in all future states, and there is a positive profit in atleast one future state.*
 
