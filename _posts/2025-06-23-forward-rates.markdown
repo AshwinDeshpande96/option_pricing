@@ -28,7 +28,7 @@ $$ \Rightarrow PV(Product\ 1) = PV(Product\ 2)$$
 
 ### Future Value
 
-If we have an interest rate *r%*, *PV* present value of  a financial instrument compounding *n* times per year and holding it for *m* years the future value *F* is given by
+If we have an annual interest rate *r%*, *PV* present value of a financial instrument compounding *n* times per year and holding it for *m* periods the future value *F* is given by
 <a style="text-align:right;" name="eq-fv">Equation (1)</a>,
 
 $$F = PV \cdot \left(1 + \frac{r\%}{n} \right)^m$$

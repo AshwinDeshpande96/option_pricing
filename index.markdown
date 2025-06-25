@@ -5,4 +5,17 @@
 layout: home
 ---
 
-Welcome! This is a website where I write about my research interests. 
+<img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/profile.jpeg" align="left" width="200" style="margin-right:16px;">
+
+Welcome! My name is Ashwin Deshpande. I am a Data Scientist and an independent researcher currently working on pricing financial instruments using mathematical models. My current research endeavours specifically is in measuring the effects of uncertainty in volatility models. See my posts to read about my current works. I write everything from basic mathematical tools I find interesting in math to paper reviews in bayesian methods in stochastic volatility models.
+
+**Click here for my [C.V.](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/cv.pdf)**
+
+
+<br clear="all">
+
+
+## Publications
+
+* **How you say it matters: Measuring the impact of verbal disfluency tags on automated dementia detection** [PDF](https://aclanthology.org/2022.bionlp-1.4.pdf)
+    * S Farzana, A Deshpande, N Parde (Proceedings of the 21st workshop on biomedical language processing, 37-48)
