@@ -7,7 +7,7 @@ layout: home
 
 <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/profile.jpeg" align="left" width="200" style="margin-right:16px;">
 
-Welcome! My name is Ashwin Deshpande. I am a Data Scientist and an independent researcher currently working on pricing financial instruments using mathematical models. My current research endeavours specifically is in measuring the effects of uncertainty in volatility models. See my posts to read about my current works. I write everything from basic mathematical tools I find interesting in math to paper reviews in bayesian methods in stochastic volatility models.
+Welcome! My name is Ashwin Deshpande. I am a Data Scientist and an independent researcher currently working on pricing financial instruments using mathematical models. My current research endeavours specifically is in measuring the effects of uncertainty in volatility models (Bayesian methods in stochastic volatility models). See posts section to read my latest articles. I write everything from basic mathematical tools I find interesting in math to paper reviews.
 
 **Click here for my [C.V.](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/cv.pdf)**
 
