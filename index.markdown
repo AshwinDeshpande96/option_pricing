@@ -19,3 +19,7 @@ Welcome! My name is Ashwin Deshpande. I am a Data Scientist and an independent r
 
 * **How you say it matters: Measuring the impact of verbal disfluency tags on automated dementia detection** [PDF](https://aclanthology.org/2022.bionlp-1.4.pdf)
     * S Farzana, A Deshpande, N Parde (Proceedings of the 21st workshop on biomedical language processing, 37-48)
+
+## Education
+* **M.S.**, Computer Science, University of Illinois Chicago, 2022
+* **B.E.**, Computer Science, B.V. Bhoomaraddi College of Engineering & Technology, 2018
