@@ -9,7 +9,7 @@ hidden: true
 We look at trading opportunities when we identify mispriced products in the bond market. These are under deterministic payoff conditions (we are certain that a product has a known and fixed interest rate *r%*)
 
 ### Arbitrage
-
+<div id='arbitrage'></div>
 A trade can be called an arbitrage if it satisfies all 3 following conditions
 1. Negative or zero investment: the investment doesn't require initial capital
 2. No risk of loss: in all future states of the trade there is no possibility of loss
