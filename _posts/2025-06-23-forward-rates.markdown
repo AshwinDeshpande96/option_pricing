@@ -19,12 +19,8 @@ These conditions are rare and often short-lived. We shall see an example of what
 
 ### Law of one price
 
-Following no-arbitrage conditions, if we have two cash flows from two products that pay the same final value at time *T* they should be priced equally.
-* Product 1: Pays 1 installment of \\$120 every year for 5 years
-* Product 2: Pays 12 installments of \\$10 every year for 5 years
-
-$$ \Rightarrow PV(Product\ 1) = PV(Product\ 2)$$
-
+Following no-arbitrage conditions, if we have two cash flows from two products that pay the same amount on the same
+schedule, their present value should be the same.
 
 ### Future Value
 
