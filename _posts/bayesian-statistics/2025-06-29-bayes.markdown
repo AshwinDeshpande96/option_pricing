@@ -1,0 +1,54 @@
+---
+layout: post
+title:  "Probability Concepts"
+date:   2025-06-29 12:30:48 -0500
+categories: [bayesian]
+hidden: true
+# published: false
+---
+
+### Bayes theorem
+
+<div id='bayes'></div>
+
+Bayes theorem is useful to update the probability of an event given some data i.e. we update our prior beliefs $P(x)$ to a posterior $P(x\|data)$. Bayes theorem gives us a rule for inverting probabilities. 
+
+$$posterior=\frac{likelihood \cdot prior}{marginal}$$
+
+In the two discrete events case we have, 
+
+$$P(A|B)=\frac{P(B|A) \cdot P(A)}{P(B)}$$
+
+$$P(A|B)=\frac{P(B|A) \cdot P(A)}{P(B|A) \cdot P(A) + P(B|A^{c}) \cdot P(A^{c})}$$
+
+Additionally if we have $m$ events $A_{1},...,A_{m}$ where $A_{i}$'s are mutually exclusive and $\sum_{i=1}^{m}P(A_{i}) = 1$ the bayes theorem extends to $m$ events as follows
+
+$$P(A|B)=\frac{P(B|A) \cdot P(A)}{\sum_{i=1}^{m} P(B|A_{i}) \cdot P(A_{i})}$$
+
+### Expectation
+
+<div id='expectation'></div>
+
+The expectation of a random variable $X$ is the average of all the values $X$ can take - weighted by probability of each value. 
+
+For discrete random variable:
+
+$$E(X) = \sum_{x} x \cdot P(X=x) = \sum_{x} x \cdot f(x)$$
+
+For continuous random variable:
+
+$$E(X) = \int_{-\infty}^{\infty} x \cdot f(x)$$
+
+The expected value of a random variable gives us the measure of *central tendency* of that variable. For example if were to ask what is the average height of a male in the U.S.? It would be difficult to take the average of heights of entire male population in the U.S.. We could instead find a number that best estimates the population average with some margin of error. To mathematically quantify the margin of error we use *confidence intervals* that give us a lower and upper bound. We could instead say we are 95% confident that the *average height* of U.S. male population is between 5 feet 8 inches to 5 feet 10 inches. If you were to take an average of a sample of 100 people from the U.S., it is not guaranteed that the average will be within the given range. It would however approach a stable mean (population mean) as n approaches infinity(or true population size). So far we have found an estimate of the mean height and not of the *individual*. In a [normal distribution]({{ "/bayesian/2025/06/29/distributions#normal" | relative_url }}) we can find the 95% confidence interval of individual height using *standard deviation/variance* with $\mu \pm 3 \cdot \sigma$
+
+Let's assume the population average of U.S. male population is 5 ft 8 inches. You take $n=10$ different samples of size $m$
+
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/average_male_height.svg" width="200" style="margin:17px;"> </div>
+
+<br clear="all">
+
+### Variance
+
+<div id='variance'></div>
+
+Variance of a random variable measures how spread out its values are. 
