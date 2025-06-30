@@ -6,3 +6,71 @@ categories: [option_pricing]
 hidden: true
 # published: false
 ---
+
+### Forward contracts
+
+Forward contracts are primarily traded over-the-counter (OTC) agreements and therefore have two issues:
+* **Counterparty risk**: Since P&L accumulate over the life of the contract they are not realized until the maturity date. This exposes both parties with significant counterparty risk - the risk that one of the party will default on it's part of the obligation.
+* **Delay in settlement**: as forward contract is an agreement is to trade underlying asset at maturity date, we are unable to use agreed cash or asset until maturity.
+
+This is solved using futures contracts as follows:
+* **Clearinghouse** a middle party responsible for facilatiting futures exchanges significantly mitigates the risk of default. Clearinghouse also requires both parties to have a margin account - a minimum level of funds to be maintained. Hence, the risk of buyer/seller defaulting is manageable.
+* **Mark-to-market(MTM)** the accumulated P&L till maturity is broken down into series of daily payments depending on daily price changes.
+
+#### Does MTM uphold the law of one price?
+
+The final payment of the forward contract trade is given by the difference in spot price of the forward contract at time $t=0$ and spot price of the underlying asset at maturity $T$: $S(T) - F(t=0)$ (long) or $F(t=0) - S(T)$ (short).
+
+We break the final forward contract payments down into a series of daily payments:
+
+<div id='futures-series'>Eq-1</div>
+
+$$\left[ F(t=1) - F(t=0) \right] + \left[ F(t=2) - F(t=1) \right] + ... + \left[ F(t=T) - F(t=T-1) \right] = S(T) - F(t=0)$$
+
+Considering $F(t=T) = S(T)$ holds under no-arbitrage conditions. Equation-1 holds as we see that $F(x)$ $\forall x \in [1,T-1] $ cancels out, leaving $F(t=T) - F(t=0) = S(T) - F(t=0)$.  However, since this involves a different schedule of payments the law of one price no longer holds when we break down profits from forward contracts into a series of payments. This is due time-value of money as interest rates discount factors are applied differently. 
+
+See present value [definition]({{ "/option_pricing/2025/06/25/basic-concepts#pv" | relative_url }}).
+
+* Present value of forward contract payment: 
+
+$$\frac{S(T)-F(t=0)}{e^{r \cdot T}}$$
+
+* Present value of series of futures contract payments: 
+
+$$\frac{F(t=1)-F(t=0)}{e^{r \cdot (T-1)}} + \frac{F(t=2)-F(t=1)}{e^{r \cdot (T-2)}} + ... + \frac{F(t=T)-F(t=T-1)}{e^{r \cdot (T-T)}}$$
+
+Therefore, we replicate the purchase of a forward contract by the sum of discounted periodic future contract purchases: $\left[F(k+1) - F(k)\right] \cdot e^{-r \cdot (T - (k+1))}$ for every time step $k$. While the two amounts(Forward price and sum of series of future prices) may differ slightly, the daily futures prices in the market are adjusted through arbitrageurs such that the total payments of the series of futures is roughly equal to the forward price $F(t=0)$, in keeping with the core idea behind law of one price.
+
+### Example with forward contract on a 6-month bond
+
+Consider that the underlying asset is a 6-month bond with a annual interest rate $r = 5\\%$ that remains the same through the life of the forward contract. 
+* $F_{theoretical}(t=0) = 100$
+* $F(t=0) = 95$
+* 6 monthly futures contract payments 
+
+#### Present value of the forward contract
+
+$$PV_{forward} = \frac{S(T)-F(t=0)}{e^{r \cdot T}} = \frac{F_{theoretical}(t=0) - F(t=0)}{e^{r \cdot T}}$$
+
+$$PV_{forward} = \frac{100-95}{e^{0.05 \times 0.5}} = 4.8765$$
+
+
+#### Present value of the futures contracts
+
+
+| Month | Future Price |                           Present Value                        |   PV   |
+| :--------: | :------------: | :--------------------------------------------------------------: | :---: |
+|   0      |      95      |                                                                |
+|   1      |      96      | $PV_{future-1} = \frac{F(t=1)-F(t=0)}{e^{r \cdot \frac{1}{12} \cdot (T-(0+1)) }} = \frac{96-95}{e^{0.05 \cdot \frac{1}{12} \cdot (6-1) }}$ | 0.9794 |
+|   2      |      94      | $PV_{future-2} = \frac{F(t=2)-F(t=1)}{e^{r \cdot \frac{1}{12} \cdot (T-(1+1)) }} = \frac{94-96}{e^{0.05 \cdot \frac{1}{12} \cdot (6-2) }}$ | -1.9669 | 
+|   3      |      97      | $PV_{future-3} = \frac{F(t=3)-F(t=2)}{e^{r \cdot \frac{1}{12} \cdot (T-(2+1)) }} = \frac{97-94}{e^{0.05 \cdot \frac{1}{12} \cdot (6-3) }}$ | 2.9627 | 
+|   4      |      97      |  $PV_{future-4} = \frac{F(t=4)-F(t=3)}{e^{r \cdot \frac{1}{12} \cdot (T-(3+1)) }} = \frac{97-97}{e^{0.05 \cdot \frac{1}{12} \cdot (6-4) }}$ | 0.0 |
+|   5      |      98      | $PV_{future-5} = \frac{F(t=5)-F(t=4)}{e^{r \cdot \frac{1}{12} \cdot (T-(4+1)) }} = \frac{98-97}{e^{0.05 \cdot \frac{1}{12} \cdot (6-5) }}$ | 0.9958 |
+|   6      |      100     | $PV_{future-6} = \frac{F(t=6)-F(t=5)}{e^{r \cdot \frac{1}{12} \cdot (T-(5+1)) }} = \frac{100-98}{e^{0.05 \cdot \frac{1}{12} \cdot (6-6) }}$ | 2.0 |
+
+
+$PV_{futures} = 0.9794 - 1.9669 + 2.9627 + 0.9958 + 2.0 = 4.971$
+
+The slight difference between the $PV_{futures}$ and $PV_{forward}$ comes from arbitrary numbers chosen in future prices and due to monthly payments instead of continuous MTM. The actual future prices will differ such that the two amounts are closer.
+
+*Note: this example is under the assumption of a deterministic/non-stochastic interest rates. The exact calculation would be more involved considering expectations of future interest rates, but in keeping with no-arbitrage conditions.*
