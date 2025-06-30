@@ -73,4 +73,4 @@ $PV_{futures} = 0.9794 - 1.9669 + 2.9627 + 0.9958 + 2.0 = 4.971$
 
 The slight difference between the $PV_{futures}$ and $PV_{forward}$ comes from arbitrary numbers chosen in future prices and due to monthly payments instead of continuous MTM. The actual future prices will differ such that the two amounts are closer.
 
-*Note: this example is under the assumption of a deterministic/non-stochastic interest rates. The exact calculation would be more involved considering expectations of future interest rates, but in keeping with no-arbitrage conditions.*
+*Note: this example is under the assumption of a deterministic/non-stochastic interest rates. The exact calculation would be more involved considering expectations of future interest rates, but remaining under no-arbitrage conditions.*
