@@ -55,7 +55,7 @@ hist(samples_bernoulli, breaks = c(-0.5, 0.5, 1.5), freq = FALSE,
      col = c("skyblue", "lightcoral"), xaxt = 'n') # Turn off x-axis ticks for custom labels
 axis(side = 1, at = c(0, 1), labels = c("0", "1"))
 ```
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/bern.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/bernoulli.svg" width="100%" style="margin:17px;"> </div>
 
 #### 1.2. Binomial Distribution
 
