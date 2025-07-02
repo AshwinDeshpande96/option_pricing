@@ -55,7 +55,7 @@ hist(samples_bernoulli, breaks = c(-0.5, 0.5, 1.5), freq = FALSE,
      col = c("skyblue", "lightcoral"), xaxt = 'n') # Turn off x-axis ticks for custom labels
 axis(side = 1, at = c(0, 1), labels = c("0", "1"))
 ```
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/bernoulli.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/bernoulli.svg" width="70%" style="margin:17px;"> </div>
 
 #### 1.2. Binomial Distribution
 
@@ -98,7 +98,7 @@ hist(samples_binomial, breaks = seq(-0.5, n_trials_binom + 0.5, by = 1), freq = 
      col = "lightgreen", border = "white")
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/binom.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/binom.svg" width="70%" style="margin:17px;"> </div>
 
 #### 1.3. Multinomial Distribution
 
@@ -150,7 +150,7 @@ if (sum(specific_counts) == n_trials_multi) {
 }
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/multinom.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/multinom.svg" width="70%" style="margin:17px;"> </div>
 
 #### 1.4. Geometric Distribution
 
@@ -195,7 +195,7 @@ hist(samples_geometric, breaks = seq(-0.5, max(samples_geometric) + 0.5, by = 1)
      col = "lightgray", border = "white")
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/geo.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/geo.svg" width="70%" style="margin:17px;"> </div>
 
 #### 1.5. Poisson Distribution
 
@@ -238,7 +238,7 @@ hist(samples_poisson, breaks = seq(-0.5, max(samples_poisson) + 0.5, by = 1), fr
      col = "salmon", border = "white")
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/poisson.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/poisson.svg" width="70%" style="margin:17px;"> </div>
 
 ### 2. Continous
 
@@ -287,7 +287,7 @@ hist(samples_uniform, breaks = 30, freq = FALSE,
 lines(density(samples_uniform), col = "red", lwd = 2) # Overlay density estimate
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/uni.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/uni.svg" width="70%" style="margin:17px;"> </div>
 
 #### 2.2. Exponential
 
@@ -333,7 +333,7 @@ hist(samples_exponential, breaks = 50, freq = FALSE,
 lines(density(samples_exponential), col = "purple", lwd = 2) # Overlay density estimate
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/expo.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/expo.svg" width="70%" style="margin:17px;"> </div>
 
 #### 2.3. Gamma
 
@@ -381,7 +381,7 @@ hist(samples_gamma, breaks = 50, freq = FALSE,
 lines(density(samples_gamma), col = "darkmagenta", lwd = 2) # Overlay density estimate
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/gamma.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/gamma.svg" width="70%" style="margin:17px;"> </div>
 
 #### 2.4. Beta
 
@@ -426,7 +426,7 @@ hist(samples_beta, breaks = 40, freq = FALSE,
 lines(density(samples_beta), col = "brown", lwd = 2) # Overlay density estimate
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/beta.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/beta.svg" width="70%" style="margin:17px;"> </div>
 
 #### 2.5. Normal
 
@@ -460,7 +460,7 @@ hist(samples_normal, breaks = 40, freq = FALSE,
 lines(density(samples_normal), col = "blue", lwd = 2) # Overlay density estimate
 ```
 
-<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/normal.svg" width="100%" style="margin:17px;"> </div>
+<div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/normal.svg" width="70%" style="margin:17px;"> </div>
 
 #### 2.6. t
 
