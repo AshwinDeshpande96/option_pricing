@@ -1,0 +1,35 @@
+---
+layout: post
+title:  "Introduction"
+date:   2025-07-02 12:30:48 -0500
+categories: [genai]
+hidden: true
+# published: false
+---
+
+## Overview
+* Generative AI & LLMs
+* Foundation models for NLP
+    * N-grams, word2vec, s2s models
+    * NLP tasks
+* Language modeling with Transformers
+    * Positional encoding, word embedding, attention mechanisms, multi-head attention
+    * Decoder based models (generative pre-trained transformer - GPT)
+    * Encoder based models (bidirections encoder representations from transformers - BERT)
+* Fine-tuning with Transformers
+    * Optimize transformer based LLMs
+    * Fine-tuning AI models
+    * Hugging-face and PyTorch
+    * PEFT, LoRA and QLoRA
+    * Load and train models using huggingface & pyotch adapters
+* Advanced fine-tuning for LLMs
+    * Human feedback learning
+    * Instruction tuning and reward modeling
+    * PPO, policies and RLHF (Reinforcement learning from human feedback)
+    * Direct performance optimization(DPO): partition function and optimal solution 
+* AI Agents with RAG & LangChain
+    * RAG process, encoders and FAISS
+    * In context learning
+    * LangChain
+    * Prompt engineering
+    * LangChain tools

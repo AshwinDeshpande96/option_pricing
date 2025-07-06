@@ -1,0 +1,81 @@
+---
+layout: post
+title:  "Overview"
+date:   2025-07-02 12:30:48 -0500
+categories: [genai]
+hidden: true
+# published: false
+---
+
+### Image generation
+
+* Text to Image: DALL-E
+* Seed image: GAN, diffusion models
+* From sketches: GAN, diffusion models
+
+### Audio generation
+
+*  WaveNet
+
+### Generative AI architecture and models
+
+* RNNs
+    * Used when there is a natural order and time-based dependencies
+    * Loop based design
+    * LLMs
+* RNN fine-tuning
+    * Necessary for retraining model for specific task/data set
+    * NLP, language translation, speech recognition, image captioning
+* Transformer
+    * Are deep learning models that can translate language, do speec recognition in near real time
+    * It has self-attention mechanism that helps focus on important parts of the information that helps in decision making. Making it more efficient
+    * This mechanism helps focus on multiple segments concurrently for efficient training
+* LLM: Fine-tuning
+    * Usually only involves training only the output layer, keeping the hidden layers intact.
+* GAN
+    * This has two sub-models
+        * Generator
+        * Discriminator
+    * Generator sends fake images to the disciminator
+    * The discriminator returns a score to rate the  authenticity of the image by comparing them to the real samples from the domain set. This assigns a probability score to each sample to indicate how likely the sample is authentic
+    * This adversarial process acts as a friendly competition. The generative sub-model improcing to make samples look real, and the discriminator learning distinguish between real and fake
+    * GANs are particularly good for image and video generation
+* VAE
+    * Encoder-decoder architecture
+    * Encoder compresses the sample input into a simplified abstract space that captures essential characteristics
+    * The decoder then uses this condensed representations and recreates the original input data
+    * VAEs focus on learning underlying pattern in the data. This allows the VAE to create new samples that share similar characteristics
+    * These are useful for applications in art and creative design
+* Diffusion model
+    * These are probabilisitc generative models
+    * Models learn to generate images by learning how to remove noise or reconstruct noisy data
+* Generative AI models
+    * Gen-AI models are closely tied to reinforcement learning.
+    * Reinforcement learning: focus on how agents like robots interact with their environment and maximize. Rewards are awarded differently  for different behaviours.
+
+### Generative-AI for NLP
+
+* Machine translation
+    * Transformer models produce higher accuracy and context aware conversions
+* Chatbots or Virtual Assistants
+    * Gen-AI architecture is used to generate responses that are more natural and human like, with a degree of empathy and personalization.
+* Sentiment analysis
+    * Gen-AI architectures are capable of understanding subtle language expressions and offer deeper insight into user sentiment
+* Text summarization
+    * Recognizes core-meaning and significance of text and helps get key insights from body of text.
+
+### AI Hallucinations
+
+We can use LLMs to generate text that produce expert answers across many different domains. These however generate reponse that sound gramatically or logically right but inaccurate or misleading.
+
+These can be especially dangerous in financial or medical applications. They commonly misrepresent or give biased views due to prevalent biases in human generated text. It is therefore important to train on large amounts of data to take into consideration wide range of views and at the same time ensure to train on high-quality data only to avoid opinions and subjective biases. During usage of LLMs we can improve systems by being cognizant of these errors, since they are harder to detect and improve. Ensuring mistakes are identified by using human-in-the-loop systems.
+
+### Libraries
+
+* Pytorch
+* Tensorflow
+* TFX
+* Keras
+* Huggingface
+* LangChain
+* Pydantic

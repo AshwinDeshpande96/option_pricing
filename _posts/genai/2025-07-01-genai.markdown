@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Generative AI"
+date:   2025-07-01 12:30:48 -0500
+categories: [genai]
+hidden: true
+# published: false
+---
+
+* [Intro]({{ "/genai/2025/07/02/intro" | relative_url }})
+* [Overview]({{ "/genai/2025/07/02/overview" | relative_url }})
