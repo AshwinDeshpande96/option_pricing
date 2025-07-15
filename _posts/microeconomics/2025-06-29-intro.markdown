@@ -11,3 +11,4 @@ hidden: true
 ### Positive vs Normative Economics
 
 *Positive* economics is the study of how things are. *Normative* economics is the study of how things should be.
+

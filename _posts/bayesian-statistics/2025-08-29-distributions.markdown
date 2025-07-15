@@ -40,7 +40,8 @@ bernoulli_pmf <- data.frame(
   prob = c(dbinom(0, size = 1, prob = p_bernoulli), dbinom(1, size = 1, prob = p_bernoulli))
 )
 
-barplot(height = bernoulli_pmf$prob, names.arg = bernoulli_pmf$x,
+barplot(height = bernoulli_pmf$prob, 
+        names.arg = bernoulli_pmf$x,
         main = paste("Bernoulli PMF (p =", p_bernoulli, ")"),
         xlab = "Outcome", ylab = "Probability",
         ylim = c(0, 1), col = c("skyblue", "lightcoral"))
@@ -61,7 +62,7 @@ axis(side = 1, at = c(0, 1), labels = c("0", "1"))
 
 <div id='binomial'></div>
 
-This distribution is used to model multiple events that have a binary outcome. The two outcomes can be any binary process (Multiple coin flips: Head/Tail, Numbers of wins in a tournament: Yes/No). One of the outcomes is assigned a value 1 and the other 0 depending on the application. The value 1 occurs with a probability $p$ and value 0 occurs with probability $q=1-p$. If $X$ follows a Binomial distribution we write $X \sim B(n, p)$.
+This distribution is used to model multiple events that have a binary outcome. The two outcomes can be any binary process (Multiple coin flips: Head/Tail, Numbers of wins in a tournament: Yes/No). One of the outcomes is assigned a value 1 and the other 0 depending on the application. The value 1 occurs with a probability $p$ and value 0 occurs with probability $q=1-p$. If $X$ follows a binomial distribution we write $X \sim B(n, p)$.
 
 The binomial Probability mass function gives us the probability of $k$ successes in $n$ independent  Bernoulli trials. The independence indicates that the probability of success $p$ remains the same for each trial. The *pmf* is given by:
 
@@ -246,7 +247,7 @@ hist(samples_poisson, breaks = seq(-0.5, max(samples_poisson) + 0.5, by = 1), fr
 
 <div id='uniform'></div>
 
-A uniform distribution is used for random variable whose outcomes are equally likely. We have an interval with the range of all possible values/outcomes $(a,b)$. This interval has a constant probability and 0 outisde the interval. If $X$ follows a poisson distribution we write $X \sim \text{Uniform}(a, b)$.
+A uniform distribution is used for random variable whose outcomes are equally likely. We have an interval with the range of all possible values/outcomes $(a,b)$. This interval has a constant probability and 0 outisde the interval. If $X$ follows a uniform distribution we write $X \sim \text{Uniform}(a, b)$.
 
 A probability density function gives the relative likelihood of the random variable will have a value *near* to $x$. i.e. $P(X=x) \neq f(x)$. For the uniform distribution the pdf is:
 
@@ -339,7 +340,7 @@ lines(density(samples_exponential), col = "purple", lwd = 2) # Overlay density e
 
 <div id='gamma'></div>
 
-Gamma is a generalization of the the exponential distribution for *multiple* events in a poisson process or the sum of independent exponential random variables. For example, gamma can be used to model the amount time before n customers to arrive $Y = \sum_{i=1}^{n} X_{i}$ or the amount of rainfall in a reservoir during a rain-storm, if you think of rainfall as a series of independent events. There are two parameters to a Gamma distribution shape $\alpha = n$ and scale $\beta = \lambda$. A smaller $\alpha$ corresponds to a more right-skewed distribution, this is suitable for an application such as measuring rainfall in a reservoir since small amounts of rainfall are more common and heavy storms rare. As $\alpha$ increases the gamma distribution resembles a normal distribution. If $Y$ follows a exponential distribution we write $Y \sim \text{Gamma}(\alpha, \beta)$. 
+Gamma is a generalization of the the exponential distribution for *multiple* events in a poisson process or the sum of independent exponential random variables. For example, gamma can be used to model the amount time before n customers to arrive $Y = \sum_{i=1}^{n} X_{i}$ or the amount of rainfall in a reservoir during a rain-storm, if you think of rainfall as a series of independent events. There are two parameters to a Gamma distribution shape $\alpha = n$ and scale $\beta = \lambda$. A smaller $\alpha$ corresponds to a more right-skewed distribution, this is suitable for an application such as measuring rainfall in a reservoir since small amounts of rainfall are more common and heavy storms rare. As $\alpha$ increases the gamma distribution resembles a normal distribution. If $Y$ follows a gamma distribution we write $Y \sim \text{Gamma}(\alpha, \beta)$. 
 
 The gamma probability density function answers questions such what is the probability of seeing large rare events. Example: the probability of seeing a heavy storm. The pdf for gamma is given by:
 
@@ -387,7 +388,7 @@ lines(density(samples_gamma), col = "darkmagenta", lwd = 2) # Overlay density es
 
 <div id='beta'></div>
 
-Beta distributions are used to model probabilities themselves. Beta takes on a value between $[0, 1]$. Due to the flexibility of beta distribution it is used as a prior. A standard uniform distribution is beta with its parameters $\alpha$ and $\beta$ set to 1. If $X$ follows a exponential distribution we write $X \sim \text{Beta}(\alpha, \beta)$.
+Beta distributions are used to model probabilities themselves. Beta takes on a value between $[0, 1]$. Due to the flexibility of beta distribution it is used as a prior. A standard uniform distribution is beta with its parameters $\alpha$ and $\beta$ set to 1. If $X$ follows a beta distribution we write $X \sim \text{Beta}(\alpha, \beta)$.
 
 The pdf for beta distribution is as follows:
 
@@ -429,6 +430,10 @@ lines(density(samples_beta), col = "brown", lwd = 2) # Overlay density estimate
 <div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/bayesian/distributions/beta.svg" width="70%" style="margin:17px;"> </div>
 
 #### 2.5. Normal
+
+Normal distributions are the widely used as they are most naturally occuring distribition. Over multiple random draws from an underlying distribution, the means of those samples follow a normal distribution around the underlying mean. Normal takes on a value between $[-\infty, \infty]$. A standard normal distribution is beta with its parameters $\sigma = 1$ and $\mu = 0$. If $X$ follows a normal distribution we write $X \sim \text{N}(\mu, \sigma)$.
+
+The pdf for beta distribution is as follows:
 
 <div id='normal'></div>
 
@@ -475,3 +480,5 @@ lines(density(samples_normal), col = "blue", lwd = 2) # Overlay density estimate
 #### 2.10. Inverse Gamma
 
 #### 2.11. Normal Inverse Gamma
+
+#### 2.12 Negative Binomial
