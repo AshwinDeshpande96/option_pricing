@@ -28,6 +28,8 @@ If we know one of the four functions we can determine the other three uniquely. 
 
 ### Survival function
 
+<div id='survival_function'></div>
+
 Survival function is the probability that event of interest has not occured until time $t$, denoted as $ S(t) = P(T > t)$. Ex. we can answer the question what is the probability that a patient survives for more than 12 months after surgery? This is a non-increasing monotonic function with two important conditions:
 
 1. $S(0) = 1 \Rightarrow$ none of our candidates/processes have seen the event at start time $t=0$
@@ -108,7 +110,7 @@ Also from [eq(2)]({{ "/survival/2025/07/23/background#eq2" | relative_url }}),
 
 $$\lambda(x) = \frac{1}{S(x)} \cdot \left[-\frac{d(S(x))}{dx}\right] = - \frac{d(ln[S(x)])}{dx}$$
 
-Hence the **cumulative hazard function** is 
+#### Cumulative hazard
 
 $$H(x) = \int_{0}^{\infty}  h(u) \text{ } du = - ln[S(x)]$$
 
@@ -118,7 +120,7 @@ Inversely,
 
 $$S(x) = exp(-H(x)) = exp\left(-\int_{0}^{\infty}  h(u) \text{ } du\right) $$
 
-#### Discrete random variable
+#### Hazard function - discrete random variable
 
 Hazard function for discrete random variable $X$ is given by
 
@@ -134,13 +136,15 @@ $$S(x) = \prod_{x_j \leq x} \frac{S(x_j)}{S(x_{j-1})} = \frac{S(x_1)}{S(x_0)} \c
 
 $$ S(x) = \prod_{x_j \leq x} \left[ 1 - h(x_j)\right]$$
 
+#### Cumulative hazard in terms of hazard function
+
 From [eq(3)]({{ "/survival/2025/07/23/background#eq3" | relative_url }}),
 
 $$H(x) = - ln\left(\prod_{x_j \leq x} \left[ 1 - h(x_j)\right]\right)$$
 
 $$H(x) = - \sum_{x_j \leq x} ln\left[ 1 - h(x_j)\right]$$
 
-<div align='center' id='eq4'> <i> Eq 3: cumulative hazard function relation to hazard function</i> </div>
+<div align='center' id='eq4'> <i> Eq 4: cumulative hazard function relation to hazard function</i> </div>
 
 ### Mean residual life
 
@@ -156,6 +160,7 @@ $$mrl(x) = \mathbb{E}(T-x|T > x) = \frac{1}{P(T>x)} \cdot \int (t-x) \cdot f_{T-
 
 To apply the condition $X > x$ 
 
+#### Mean residual life - mrl(x)
 
 $$mrl(x) = \frac{1}{S(x)} \cdot \int_{x}^{\infty} (t-x) \cdot f(t) \text{ } dt $$
 
@@ -168,3 +173,34 @@ Using integration by parts we determine,
     * $\int_{t}^{\infty} dv = \int_{t}^{\infty} f(t) dt $ 
     * $ v = \int_{t}^{\infty} \left[ \frac{d(S(t))}{dt} \right] \Rightarrow v = S(\infty) - S(t)$
 * $v = -S(t)$
+
+$$\int_{x}^{\infty} (t-x) \cdot f(t) \text{ } dt = -(t-x)S(t)|_{x}^{\infty} - \int_{x}^{\infty} -S(t) \text{ } dt = \int_{x}^{\infty} S(t) \text{ } dt$$
+
+
+Substituting back the integral,
+
+$$\text{mrl}(x) = \frac{1}{S(x)} \cdot \int_{x}^{\infty} S(t) \text{ } dt $$
+
+#### Mean life - $\mu$
+
+$$\mathbb{E}[X] = \mu = \text{mrl}(0) = \frac{1}{S(0)} \cdot \int_{0}^{\infty} S(t) \text{ } dt $$
+
+$$\mathbb{E}[X] = \int_{0}^{\infty} S(t) \text{ } dt $$
+
+<div align='center' id='eq5'> <i> Eq 5: Mean life</i> </div>
+
+### Variance 
+
+Variance is defined as: $$\mathbb{V}[x] = \mathbb{E}[X^2] - [\mathbb{E}[X]]^2$$
+
+Let's look at the first part,
+
+$$\mathbb{E}[X^2] = \int_{0}^{\infty} t^2 \cdot f(t) \text{ } dt $$
+
+Similarly by integretation by parts,
+
+$$\mathbb{E}[X^2] = 2 \cdot \int_{0}^{\infty} t \cdot S(t) \text{ } dt$$
+
+Hence substituting above equation and [eq(5)]({{ "/survival/2025/07/23/background#eq5" | relative_url }}) in the definition of variance,
+
+$$\mathbb{V}[x] = 2 \cdot \int_{0}^{\infty} t \cdot S(t) \text{ } dt - \left[\int_{0}^{\infty} S(t) \text{ } dt\right]^2$$
