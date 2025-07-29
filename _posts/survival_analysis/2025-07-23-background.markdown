@@ -44,6 +44,8 @@ Survival functions are used to compare life of an entity across sub-groups (trea
 
 $$S(t_i) = Pr(T > t_i) = \sum_{t > t_i} p(t)$$
 
+<div id='example1'></div>
+
 Suppose we have a discrete uniform *pmf* $P(T=t_j) = 1/3$, for $j = 1,2,3$ then survival function has the value $S(1) = 1$, $S(2) = 2/3$, $S(3) = 1/3$, $S(4) = 0$.
 
 <div style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/background/survival_discrete_uniform.svg" width="70%" style="margin:17px;"> </div>
