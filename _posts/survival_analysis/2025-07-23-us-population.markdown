@@ -177,18 +177,34 @@ $$
 
 <div align='center'><i> Eq 1: Hierarchical representation of the mixture model. </i></div>
 
-The idea is that the infant mortality of the 4 race and gender category share the same distribution. Similarly the 4 categories share a common distribution for youth and aging population. The total mortality is then the weighted combination of the infant, youth and aging mortality distributions. While each of the final total mortality distribution for the race and gender categories are different, we believe there is a similarity in hyperparameters for the same age group. For example, the infant mortality of black males is more similar to infant mortality of white males as compared to youth or aging mortality of white males.
+Following is some of the prior beliefs of our model:
 
-$$Similarity(IM_{Black Males}, IM_{White Males}) > Similarity(IM_{Black Males}, YM_{White Males})$$
+* **$\mu$s share priors for an age group**: The survival of an age group share the same prior distribution across race and gender categories.
+    * The normal peak(mean) for 
+        * infant $\approx$ 0
+        * youth $\approx$ betwen 15 and 85
+        * aging $\approx$ 85
+    * The peaks for race & gender categories will diverge from these approximate measures but the ordering remains same.
+        * $f_{k=1}(x)$ < $f_{k=2}(x)$ < $f_{k=3}(x)$
+        * $f_{infant}(x)$ < $f_{youth}(x)$ < $f_{aging}(x)$
+    * Additionally, the means do not diverge so far as to mistake survival of age group $k$ to that of $k+1$
 
-$$IM \rightarrow \text{Infant Mortality}$$
-
-$$YM \rightarrow \text{Youth Mortality}$$
+* **Independent priors for volatility $\sigma$**: the shape of pdfs are different for each category, hence the volatility of $y_i$ is allowed to change independently during the MCMC process.
+* The total survival pdf is then the weighted combination of the infant, youth and aging survival pdfs.
+    * Since $\boldsymbol{\omega} \sim Dirichlet(\alpha_1, \alpha_2, \alpha_3)$, the dirichlet prior ensures $\sum \omega_k = 1$
+        * Dirichlet distribution is called the distribution over distributions. It used to measure the likelihood of cutting a probability weight (worth 1.0) into K slices.
+        * $\alpha$ in a Dirichlet distribution controls the granularity of cuts of a distribution. 
+            * If we intialize $\alpha=1.0$ the number of cuts are limited and the slices are going to be "jaggedy".
+            * If we intialize $\alpha=10.0$ the number of cuts are increased and the slices are going to be smoother.
+        * We set $\alpha_1 = \alpha_2 = \alpha_3 = 10.0 $, thus not giving any prior preference to each age group.
+        * We further initialize $\omega_1 = \omega_2 = \omega_3 = \frac{1}{K} = \frac{1}{3} $ to signify no prior information.
 
 [fig(6)]({{ "/survival/2025/07/23/us-population#fig6" | relative_url }}) shows how mixture component $k$ of each group $j=1,..,4$  share same priors $m_k$ & $s_k$
 
 <div id="fig6" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/us-survival-hierarchical-model.svg" width="100%" style="margin:17px;"> </div>
 *Figure 6: Graphical representation of the hierarchical model in eq(1).*
+
+### RJAGS model definition
 
 ```R
 library("rjags")
@@ -199,11 +215,11 @@ model {
       y[i] ~ dnorm(mu_param[category[i], z[i]], prec_param[category[i], z[i]])
       z[i] ~ dcat(omega)
     }
-    omega ~ ddirich(rep(1.0, K))
+    omega ~ ddirich(rep(10.0, K))
     for (j in 1:J) {
 
       for (k in 1:K){
-        raw_mu_param[j, k] ~ dnorm(mu0_param[m], prec0_param[k])
+        raw_mu_param[j, k] ~ dnorm(mu0_param[k], prec0_param[k]) 
         prec_param[j, k] ~ dgamma(2.0, 0.1)
         sd_param[j, k] <- sqrt(1/prec_param[j, k])
       }
@@ -217,13 +233,26 @@ model {
 
     for (k in 1:K) {
       
-      mu0_param[k] ~ dnorm(1.0, 0.1) # Mean 1.0, SD 200
+      mu0_param[k] ~ dnorm(2.0, 0.01)
       prec0_param[k] ~ dgamma(2.0, 0.1)
       sd0_param[k] = sqrt(1.0/prec0_param[k])
     }
 }
 "
 ```
+
+* z[i] through Categorical distribution chooses highest probability group among $K$ age groups.
+    * for example:
+        * $ \boldsymbol{\omega} =  [0.5, 0.25, 0.25] \rightarrow$ 1
+        * $ \boldsymbol{\omega} =  [0.25, 0.5, 0.25] \rightarrow$ 2
+    * omega through sampling in MCMC process changes the weightage of age groups
+* the ordering $f_{k=1}(x)$ < $f_{k=2}(x)$ < $f_{k=3}(x)$ is maintained through *raw_mu_param* (as long as $\mu_{raw, k>1}$ remain positive)
+    * $\mu_1 = \mu_{raw, 1}$
+    * $\mu_2 = \mu_1 + \mu_{raw, 2}$
+    * $\mu_3 = \mu_2 + \mu_{raw, 3}$
+* Normal prior for $\mu$ with large variance ensure no prior beliefs about the means of age groups. We could instead use a Gamma distribution or truncation T(0, ) to ensure $\mu_{raw}$ remain positive.
+* Similarly, variances follow inverse gamma, which ensures a non-negative support and a likelihood for moderate variance.
+
 ```R
 set.seed(11)
 
