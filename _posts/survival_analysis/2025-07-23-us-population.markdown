@@ -77,7 +77,7 @@ black_female_df = df[df$category == 1,]
 
 ## Hazard
 
-Hazard is defined as ratio between pdf and the surival i.e. $\lambda(x) = \frac{f(x)}{S(x)}$. [fig(3)]({{ "/survival/2025/07/23/us-population#fig3" | relative_url }}) shows that males have higher hazard during infancy, followed by constant and similar hazard until age 15. The hazard diverge from age 15 with males seeing higher hazard, especially in black males. Black female and white males have comparable hazard rate until age 65. White females have the least hazard throughout their lifetime.
+Hazard is defined as ratio between pdf and the surival i.e. $\lambda(x) = \frac{f(x)}{S(x)}$. [fig(3)]({{ "/survival/2025/07/23/us-population#fig3" | relative_url }}) shows that males have higher hazard during infancy, followed by a hazard that constant and similar to all categories until age 15. Thereafter, the hazard diverge with males seeing higher hazard, especially in black males. Black female and white males have comparable hazard rate until age 65. White females have the least hazard throughout their lifetime.
 
 ```R
 df$lambda = df$f/df$survival
@@ -144,22 +144,22 @@ $$
 \begin{array}{ll}
   y_i | g_i, \omega_k, \mu_{g_i, k}, \sigma_{g_i, k} \sim \sum_{k} \omega_k \cdot \mathcal{N}(\mu_{g_i, k}, \sigma_{g_i, k}) 
   &  
-  i \in \{1, ..., N\} \text{ for each obseration}
+  i = 1, ..., N \rightarrow \text{ for each obseration}
   \\
   &
-  g_i \in \{1, ..., J\} \text{ for each race & gender group}
+  g_i \in \{1, ..., J\} \rightarrow \text{ for each race & gender group}
   \\
   &
-  k \in \{1, ..., K\} \text{ for each mixture component}
+  k = 1, ..., K \rightarrow \text{ for each mixture component}
   \\
   &
   \sum \omega_k = 1
   \\
 
-  \mu_{g_i, k}| m_{k}, s_{k} \sim \mathcal{N}(m_{k}, s_{k})
-  &\\
+  \mu_{g, k}| m_{k}, s_{k} \sim \mathcal{N}(m_{k}, s_{k})
+  & g = 1, ..., J\\
 
-  \sigma_{g_i, k} \sim \text{Inverse-Gamma}(2, 10)
+  \sigma_{g, k} \sim \text{Inverse-Gamma}(2, 10)
   &\\
 
   m_{k} \sim \mathcal{N}(2, 200)
@@ -168,9 +168,9 @@ $$
   s_{k} \sim \text{Inverse-Gamma}(2, 10)
   &\\
 
-  \omega_k \sim \text{Dirichlet}(\alpha_1, \alpha_2, \alpha_3)
-  &\\
-
+  \boldsymbol{\omega} \sim \text{Dirichlet}(\alpha_1, \alpha_2, \alpha_3)
+  & \rightarrow \text{ dirichlet returns a vector}
+  \\
 
 \end{array}
 $$
@@ -185,7 +185,7 @@ $$IM \rightarrow \text{Infant Mortality}$$
 
 $$YM \rightarrow \text{Youth Mortality}$$
 
-[fig(6)]({{ "/survival/2025/07/23/us-population#fig6" | relative_url }})
+[fig(6)]({{ "/survival/2025/07/23/us-population#fig6" | relative_url }}) shows how mixture component $k$ of each group $j=1,..,4$  share same priors $m_k$ & $s_k$
 
 <div id="fig6" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/us-survival-hierarchical-model.svg" width="100%" style="margin:17px;"> </div>
 *Figure 6: Graphical representation of the hierarchical model in eq(1).*
@@ -193,7 +193,7 @@ $$YM \rightarrow \text{Youth Mortality}$$
 ```R
 library("rjags")
 
-mod1_string = "
+mod_string = "
 model {
     for (i in 1:N) {
       y[i] ~ dnorm(mu_param[category[i], z[i]], prec_param[category[i], z[i]])
@@ -225,34 +225,52 @@ model {
 "
 ```
 ```R
+set.seed(11)
+
+N = length(sample_df$age)
+J = max(sample_df$category)
+K = 3
+
+init_fun <- function() {
+  list(
+    # Initialize these based on their new dgamma priors
+    # omega = matrix(1/M, nrow=J, ncol=M),
+    omega = rep(1/K, K),
+    raw_mu_param = matrix(runif(J*K, 10.0, 20.0), ncol=M),
+    prec_param = matrix(runif(J*K, 0.01, 0.5), ncol=M),
+    mu0_param = runif(K, 10.0, 20.0),
+    prec0_param = runif(K, 0.01, 0.1)
+  )
+}
+
 data_jags = list(y=sample_df$age, 
                  category=sample_df$category, 
-                 N = N, J = J, M = M)
+                 N = N, J = J, K = K)
 
 params = c("mu_param", 'sd_param', 
            'mu0_param', 'sd0_param',
            'omega')
 
 
-mod1 = jags.model(textConnection(mod1_string), 
+mod = jags.model(textConnection(mod_string), 
                   data=data_jags, 
                   inits=init_fun,
                   n.chains=3)
-update(mod1, 1e4)
+update(mod, 1e4)
 
-mod1_sim = coda.samples(model=mod1,
+mod_sim = coda.samples(model=mod,
                         variable.names=params,
                         n.iter=5e4,
                         thin=10
                         )
-mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
-summary(mod1_csim)
-head(mod1_csim)
-plot(mod1_csim)
+mod_csim = as.mcmc(do.call(rbind, mod_sim))
+summary(mod_csim)
+head(mod_csim)
+plot(mod_csim)
 
-colMeans(mod1_csim)
-autocorr.diag(mod1_sim)
-effectiveSize(mod1_sim)
+colMeans(mod_csim)
+autocorr.diag(mod_sim)
+effectiveSize(mod_sim)
 
-dic.samples(mod1, n.iter = 5e3)
+dic.samples(mod, n.iter = 5e3)
 ```
