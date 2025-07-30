@@ -187,7 +187,7 @@ $$YM \rightarrow \text{Youth Mortality}$$
 
 [fig(6)]({{ "/survival/2025/07/23/us-population#fig6" | relative_url }})
 
-<div id="fig3" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/us-survival-hierarchical-model.svg" width="100%" style="margin:17px;"> </div>
+<div id="fig6" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/us-survival-hierarchical-model.svg" width="100%" style="margin:17px;"> </div>
 *Figure 6: Graphical representation of the hierarchical model in eq(1).*
 
 ```R
