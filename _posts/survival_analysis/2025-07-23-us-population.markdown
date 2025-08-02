@@ -7,8 +7,7 @@ hidden: true
 # published: false
 ---
 
-
-The U.S. Department of Health and Human Services publishes yearly survival curves [data]({{ "data/survival/us-population/surival_curve.csv" | relative_url }}) for all causes of mortality by race and sex.
+The U.S. Department of Health and Human Services publishes yearly survival curves [data]({{ "data/survival/us-population/surival_curve.csv" | relative_url }}) for all causes of mortality by race and sex. Download full R code [here]({{ "data/survival/us-population/us_pop_normal.R" | relative_url }}).
 
 ```R
 library(dplyr)
@@ -64,7 +63,7 @@ df <- df %>%
 <div id="fig2" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/pmf_curve.svg" width="100%" style="margin:17px;"> </div>
 *Figure 2: pmf with time $t$ by race and gender.*
 
-pmf is non-zero for each value in it's discrete set of value $\{x_1, x_2, ..., x_n\}$ and 0 otherwise. However, it is not necessary that deaths occur at finite intervals. Therefore, we are looking to find the continuous distribution that represents the pdf of survival. We will do this by fitting a parametric mixture model using bayesian MCMC process. From [fig(2)]({{ "/survival/2025/07/23/us-population#fig2" | relative_url }}) we see that the probability distribution is bath-rub shaped. Bathtub-shaped curves are common when we follow the survival rate from birth. This is also typical in applications such as modeling survival of manufacturing equipments. This shows the higher chance of deaths in population in the early stages due to infant mortality, followed by a constant rate until eventual increase in hazard rate due to natural aging process.
+pmf is non-zero for each value in it's discrete set of value $\{x_1, x_2, ..., x_n\}$ and 0 otherwise. However, it is not necessary that deaths occur at finite intervals. Therefore, we are looking to find the continuous distribution that represents the pdf of survival. We will do this by fitting a parametric mixture model using bayesian MCMC process. From [fig(2)]({{ "/survival/2025/07/23/us-population#fig2" | relative_url }}) we see that the probability distribution is bath-tub shaped. Bath-tub shaped curves are common when we follow the survival rate from birth. This is also typical in applications such as modeling survival of manufacturing equipments. This shows the higher chance of deaths in population in the early stages due to infant mortality, followed by a constant rate until eventual increase in hazard rate due to natural aging process.
 
 Let's divide the data among different race and gender categories since each group has their own pmfs.
 
@@ -87,10 +86,10 @@ df$lambda = df$f/df$survival
 
 ## Data sampling
 
-Using the pmf we can sample data that represents deaths at different ages weighted by their pmf. We sample 5000 data points for each of the categories and join in a dataframe *sample_df*.
+Using the pmf we can sample data that represents deaths at different ages weighted by their pmf. We sample n data points for each of the categories and join in a dataframe *sample_df*. It's preferable to keep sample size during experimentation. The sample size starts with 500 during modeling and increased to 2000 for final training.
 
 ```R
-n = 5000
+n = 2000
 white_male_samples <- sample(x = white_male_df$age, 
                              size = n, 
                              replace = TRUE, 
@@ -116,6 +115,16 @@ sample_df  <- data.frame(
   category = rep(c(4,3,2,1), each = n)
 )
 ```
+```R
+> head(sample_df)
+  age race_gender category
+1  40  White Male        4
+2  82  White Male        4
+3  72  White Male        4
+4  81  White Male        4
+5  84  White Male        4
+6  58  White Male        4
+```
 
 [fig(4)]({{ "/survival/2025/07/23/us-population#fig4" | relative_url }}) shows the density plot of the sampled data.
 
@@ -138,16 +147,16 @@ sample_df  <- data.frame(
 
 ## Mixture model
 
-We will now define a mixture model for each category in rjags. We have $N=5000*J$ observations, $J=4$ race & gender categories and a mixture of $K=3$ normal distributions. We choose 3 distributions since we have 3 different phases in the survival pdf i.e. infant mortality, mortality during youth, mortality due to aging. This is a hierarchical model defined as
+We will now define a mixture model for each category in rjags. We have $N=n*J$ observations, $J=4$ race & gender categories and a mixture of $K=3$ normal distributions. We choose 3 distributions since we have 3 different phases in the survival pdf i.e. infant mortality, mortality during youth, mortality due to aging. This is a hierarchical model defined as
 
 $$
 \begin{array}{ll}
-  y_i | g_i, \omega_k, \mu_{g_i, k}, \sigma_{g_i, k} \sim \sum_{k} \omega_k \cdot \mathcal{N}(\mu_{g_i, k}, \sigma_{g_i, k}) 
+  y_i | g_i, \omega_{g_i,k}, \mu_{g_i, k}, \sigma_{g_i, k} \sim \sum_{k} \omega_{g_i,k} \cdot \mathcal{N}(\mu_{g_i, k}, \sigma_{g_i, k}) 
   &  
   i = 1, ..., N \rightarrow \text{ for each obseration}
   \\
   &
-  g_i \in \{1, ..., J\} \rightarrow \text{ for each race & gender group}
+  g_i \in \{1, ..., J\} \rightarrow \text{ each observation lies in one race & gender group}
   \\
   &
   k = 1, ..., K \rightarrow \text{ for each mixture component}
@@ -157,52 +166,56 @@ $$
   \\
 
   \mu_{g, k}| m_{k}, s_{k} \sim \mathcal{N}(m_{k}, s_{k})
-  & g = 1, ..., J\\
+  & g = 1, ..., J \rightarrow \text{ for each race & gender group}\\
 
-  \sigma_{g, k} \sim \text{Inverse-Gamma}(2, 10)
+  \sigma_{g, k} \sim \text{Inverse-Gamma}(2, 2)
   &\\
 
-  m_{k} \sim \mathcal{N}(2, 200)
+  m_{k} \sim \mathcal{N}(45, 200)
   &\\
 
-  s_{k} \sim \text{Inverse-Gamma}(2, 10)
+  s_{k} \sim \text{Inverse-Gamma}(2, 0.5)
   &\\
 
-  \boldsymbol{\omega} \sim \text{Dirichlet}(\alpha_1, \alpha_2, \alpha_3)
+  \boldsymbol{\omega}_{g,k} \sim \text{Dirichlet}(\alpha_1, \alpha_2, \alpha_3)
   & \rightarrow \text{ dirichlet returns a vector}
   \\
 
 \end{array}
 $$
 
-<div align='center'><i> Eq 1: Hierarchical representation of the mixture model. </i></div>
+<div id="defn1" align='center'><i> Definition 1: Hierarchical representation of the mixture model. </i></div>
 
 Following is some of the prior beliefs of our model:
 
-* **$\mu$s share priors for an age group**: The survival of an age group share the same prior distribution across race and gender categories.
-    * The normal peak(mean) for 
+* **$\mu$s share priors for an age group**: The survival of an age group share the same priors - $m_k$ & $s_k$ across race and gender categories.
+    * The expect normal peak(mean) for 
         * infant $\approx$ 0
         * youth $\approx$ betwen 15 and 85
         * aging $\approx$ 85
     * The peaks for race & gender categories will diverge from these approximate measures but the ordering remains same.
-        * $f_{k=1}(x)$ < $f_{k=2}(x)$ < $f_{k=3}(x)$
-        * $f_{infant}(x)$ < $f_{youth}(x)$ < $f_{aging}(x)$
+        * $\mu_{k=1}$ < $\mu_{k=2}$ < $\mu_{k=3}$
+        * $\mu_{infant}$ < $\mu_{youth}$ < $\mu_{aging}$
     * Additionally, the means do not diverge so far as to mistake survival of age group $k$ to that of $k+1$
 
-* **Independent priors for volatility $\sigma$**: the shape of pdfs are different for each category, hence the volatility of $y_i$ is allowed to change independently during the MCMC process.
-* The total survival pdf is then the weighted combination of the infant, youth and aging survival pdfs.
+* **independent priors for $\sigma$s**: the shape of pdfs are different for each category, hence the volatility spread is given a vague prior
+    * The expected volatility spread for 
+        * infant is moderate
+        * youth is large: normal $\rightarrow$ uniform as $\sigma \rightarrow \infty$
+        * aging is lowest: we need a sharp peak corresponding to increasing hazard within aging population.
+* **Non-informative prior for mixture weighting $\omega$**: The total survival pdf is then the weighted combination of the infant, youth and aging survival pdfs.
     * Since $\boldsymbol{\omega} \sim Dirichlet(\alpha_1, \alpha_2, \alpha_3)$, the dirichlet prior ensures $\sum \omega_k = 1$
         * Dirichlet distribution is called the distribution over distributions. It used to measure the likelihood of cutting a probability weight (worth 1.0) into K slices.
         * $\alpha$ in a Dirichlet distribution controls the granularity of cuts of a distribution. 
             * If we intialize $\alpha=1.0$ the number of cuts are limited and the slices are going to be "jaggedy".
             * If we intialize $\alpha=10.0$ the number of cuts are increased and the slices are going to be smoother.
-        * We set $\alpha_1 = \alpha_2 = \alpha_3 = 10.0 $, thus not giving any prior preference to each age group.
+        * We set $\alpha_1 = \alpha_2 = \alpha_3 = 1.0 $, thus not giving prior preference to any age group.
         * We further initialize $\omega_1 = \omega_2 = \omega_3 = \frac{1}{K} = \frac{1}{3} $ to signify no prior information.
 
 [fig(6)]({{ "/survival/2025/07/23/us-population#fig6" | relative_url }}) shows how mixture component $k$ of each group $j=1,..,4$  share same priors $m_k$ & $s_k$
 
-<div id="fig6" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/us-survival-hierarchical-model.svg" width="100%" style="margin:17px;"> </div>
-*Figure 6: Graphical representation of the hierarchical model in eq(1).*
+<div id="fig6" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/us-survival-hierarchical-model3.svg" width="100%" style="margin:17px;"> </div>
+*Figure 6: Graphical representation of the hierarchical model in [defn(1)]({{ "/survival/2025/07/23/us-population#defn1" | relative_url }}).*
 
 ### RJAGS model definition
 
@@ -212,41 +225,41 @@ library("rjags")
 mod_string = "
 model {
     for (i in 1:N) {
-      y[i] ~ dnorm(mu_param[category[i], z[i]], prec_param[category[i], z[i]])
-      z[i] ~ dcat(omega)
+      y[i] ~ dnorm(mu[category[i], z[i]], prec[category[i], z[i]]) 
+      z[i] ~ dcat(omega[category[i], ])
     }
-    omega ~ ddirich(rep(10.0, K))
+
     for (j in 1:J) {
+      omega[j, 1:K] ~ ddirich(rep(1.0, K))
 
       for (k in 1:K){
-        raw_mu_param[j, k] ~ dnorm(mu0_param[k], prec0_param[k]) 
-        prec_param[j, k] ~ dgamma(2.0, 0.1)
-        sd_param[j, k] <- sqrt(1/prec_param[j, k])
+        raw_mu[j, k] ~ dnorm(mu0[k], prec0[k])
+        prec[j, k] ~ dgamma(2.0, 2.0)
+        sd[j, k] <- sqrt(1/prec[j, k])
       }
 
-      mu_param[j, 1] <- raw_mu_param[j,1]
+      mu[j, 1] <- raw_mu[j,1]
       
       for (k in 2:K){
-        mu_param[j, k] <- mu_param[j, k-1] + raw_mu_param[j, k]
+        mu[j, k] <- mu[j, k-1] + raw_mu[j, k]
       }
     }
 
     for (k in 1:K) {
-      
-      mu0_param[k] ~ dnorm(2.0, 0.01)
-      prec0_param[k] ~ dgamma(2.0, 0.1)
-      sd0_param[k] = sqrt(1.0/prec0_param[k])
+      mu0[k] ~ dnorm(45, 0.01)
+      prec0[k] ~ dgamma(2.0, 2.0)
+      sd0[k] = sqrt(1.0/prec0[k])
     }
 }
 "
 ```
 
-* z[i] through Categorical distribution chooses highest probability group among $K$ age groups.
+* z[i] is determined with a Categorical distribution that chooses highest probability group among $K$ age groups.
     * for example:
         * $ \boldsymbol{\omega} =  [0.5, 0.25, 0.25] \rightarrow$ 1
         * $ \boldsymbol{\omega} =  [0.25, 0.5, 0.25] \rightarrow$ 2
     * omega through sampling in MCMC process changes the weightage of age groups
-* the ordering $f_{k=1}(x)$ < $f_{k=2}(x)$ < $f_{k=3}(x)$ is maintained through *raw_mu_param* (as long as $\mu_{raw, k>1}$ remain positive)
+* the ordering $\mu_{k=1}$ < $\mu_{k=2}$ < $\mu_{k=3}$ is maintained through *raw_mu* (as long as $\mu_{raw, k>1}$ remain positive - this property is inferred from data)
     * $\mu_1 = \mu_{raw, 1}$
     * $\mu_2 = \mu_1 + \mu_{raw, 2}$
     * $\mu_3 = \mu_2 + \mu_{raw, 3}$
@@ -260,46 +273,78 @@ N = length(sample_df$age)
 J = max(sample_df$category)
 K = 3
 
+
 init_fun <- function() {
   list(
     # Initialize these based on their new dgamma priors
-    # omega = matrix(1/M, nrow=J, ncol=M),
-    omega = rep(1/K, K),
-    raw_mu_param = matrix(runif(J*K, 10.0, 20.0), ncol=M),
-    prec_param = matrix(runif(J*K, 0.01, 0.5), ncol=M),
-    mu0_param = runif(K, 10.0, 20.0),
-    prec0_param = runif(K, 0.01, 0.1)
+    omega = matrix(1/K, nrow=J, ncol=K),
+    raw_mu = matrix(runif(J*K, 1.0, 20.0), ncol=K),
+    prec = matrix(runif(J*K, 0.01, 0.5), ncol=K),
+    mu0 = runif(K, 1.0, 20.0),
+    prec0 = runif(K, 0.01, 0.1)
   )
 }
 
 data_jags = list(y=sample_df$age, 
                  category=sample_df$category, 
-                 N = N, J = J, K = K)
+                 N=N, J=J, K=K)
 
-params = c("mu_param", 'sd_param', 
-           'mu0_param', 'sd0_param',
-           'omega')
+params = c("mu", 'sd', 'omega')
 
 
-mod = jags.model(textConnection(mod_string), 
+mod1 = jags.model(textConnection(mod1_string), 
                   data=data_jags, 
                   inits=init_fun,
                   n.chains=3)
-update(mod, 1e4)
+update(mod1, 1e3)
 
-mod_sim = coda.samples(model=mod,
+mod1_sim = coda.samples(model=mod1,
                         variable.names=params,
-                        n.iter=5e4,
-                        thin=10
-                        )
-mod_csim = as.mcmc(do.call(rbind, mod_sim))
-summary(mod_csim)
-head(mod_csim)
-plot(mod_csim)
+                        n.iter=5e3,
+                        thin=5)
 
-colMeans(mod_csim)
-autocorr.diag(mod_sim)
-effectiveSize(mod_sim)
-
-dic.samples(mod, n.iter = 5e3)
+mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 ```
+## Results
+### $\mu$
+|   category   | $\mu_{infant}$ | $\mu_{youth}$ | $\mu_{aging}$ | 
+|:------------:|:--------------:|:-------------:|:-------------:|
+| Black Female |   1.082024     |  57.88787     |  77.03880     |
+|  Black Male  |  13.459897     |  56.42420     |  75.79710     |
+| White Female |  10.605434     |  64.41357     |  79.75966     |
+|  White Male  |   1.049828     |  55.88415     |  75.82470     |
+
+<div id="table1" align='center'><i> Table 1: Estimated posterior means of the mixture models.</i></div>
+
+### $\sigma$
+
+|   category   | $\sigma_{infant}$ | $\sigma_{youth}$ | $\sigma_{aging}$ | 
+|:------------:|:-----------------:|:----------------:|:----------------:|
+| Black Female |  0.4418947        | 15.01128         | 5.727624         |
+|  Black Male  | 6.3943120         | 13.80961         | 5.908027         |
+| White Female |  7.4050833        | 11.64323         | 4.093821         |
+|  White Male  | 0.4697202         | 15.45382         | 6.277101         |
+
+<div id="table2" align='center'><i> Table 2: Estimated posterior standard deviations of the mixture models.</i></div>
+
+### $\omega$
+
+|   category   | $\omega_{infant}$ | $\omega_{youth}$ | $\omega_{aging}$ | 
+|:------------:|:-----------------:|:----------------:|:----------------:|
+| Black Female |   0.01923064      |   0.4467875      |   0.5339818      |
+|  Black Male  |   0.09759298      |   0.4965808      |   0.4058262      |
+| White Female |   0.03284666      |   0.4499149      |   0.5172384      |
+|  White Male  |   0.01088987      |   0.3276500      |   0.6614601      |
+
+<div id="table2" align='center'><i> Table 2: Estimated posterior weights of the mixture models.</i></div>
+
+<div id="fig7" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/posterior_pdf.svg" width="100%" style="margin:17px;"> </div>
+*Figure 7: Estimated posterior pdf of the mixture model.*
+
+<div id="fig8" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/posterior_survival.svg" width="100%" style="margin:17px;"> </div>
+*Figure 8: Estimated posterior survival of the mixture model.*
+
+<div id="fig9" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/posterior_hazard.svg" width="100%" style="margin:17px;"> </div>
+*Figure 9: Estimated posterior hazard of the mixture model.*
+
+From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we can see that estimates are consistent with our original pmfs. [fig(8)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) & [fig(9)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) shows highest hazard associated with black male, comparable hazard for white male and black female and least hazard with white female.
