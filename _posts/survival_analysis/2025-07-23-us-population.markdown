@@ -349,3 +349,57 @@ mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 <div  align='center'><i> Figure 9: Estimated posterior hazard of the mixture model. </i></div>
 
 From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we can see that estimates are consistent with our original pmfs. [fig(8)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) & [fig(9)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) shows highest hazard associated with black male, comparable hazard for white male and black female and least hazard with white female.
+
+### Performance
+
+1. **Integrated Squared Error (ISE)**
+    * Discretize the estimated PDF at the support of the PMF, and compute:
+    * Where $p(x)$ is the ground-truth PMF, $\hat{f}(x)$ is the estimated PDF evaluated at $x$, and $\Delta x$ is the bin width.
+    * Smaller is better.
+
+    $$ISE = \sum_{x \in support} \left[\hat{f}(x) - p(x)\right]^2 \cdot \Delta x$$
+
+2. **KL Divergence**
+
+    $$KL(p || \hat{f}) = \sum_{x} p(x) \cdot log\left(\frac{p(x)}{\hat{f}(x)}\right)$$
+
+3. **Total Variation Distance**
+
+    $$TVD = \frac{1}{2} \sum_{x} \left|\hat{f}(x) - p(x)\right| \cdot \Delta x$$
+
+|             metric             |    total   | White Male  | White Female | Black Male  | Black Female |
+|:------------------------------:|:----------:|-------------|--------------|-------------|--------------|
+| Integrated Squared Error (ISE) | 0.01350756 | 0.003014261 | 0.005785105  | 0.001594068 | 0.003114122  |
+|          KL Divergence         | -0.4706846 | -0.10930204 | -0.22468737  | 0.01436478  | -0.15105993  |
+|    Total Variation Distance    |  0.6290053 | 0.1463835   | 0.1991339    | 0.1291691   | 0.1543188    |
+
+### Visual Diagnostics
+
+* **Bar plot pmf vs Line plot pdf**
+
+<div id="fig10" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_male_pmf_vs_pdf.svg" alt="Image 1" style="width: 100%;">
+    <p style="margin-top: 5px;">(a)</p>
+  </div>
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_male_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
+    <p style="margin-top: 5px;">(b)</p>
+  </div>
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/black_male_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
+    <p style="margin-top: 5px;">(c)</p>
+  </div>
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/black_female_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
+    <p style="margin-top: 5px;">(d)</p>
+  </div>
+</div>
+
+<div align="center">
+  <i>Figure 5: (a) White Male pmf vs pdf
+  (b) White Female pmf vs pdf
+  (c) Black Male pmf vs pdf
+  (d) Black Female pmf vs pdf</i>
+
+</div>

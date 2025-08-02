@@ -5,17 +5,17 @@ df <- df[,c('race_gender', 'age', 'survival')]
 df$category = as.numeric(as.factor(df$race_gender))
 head(df)
 
-df$f <- NA
+df$pmf <- NA
 
 df <- df %>%
   arrange(race_gender, age) %>%  # Ensure correct order within each group
   group_by(race_gender) %>%
   mutate(
-    f = lag(survival) - survival  # S(t-1) - S(t)
+    pmf = lag(survival) - survival  # S(t-1) - S(t)
   ) %>%
   ungroup()
 
-df$lambda = df$f/df$survival
+df$lambda = df$pmf/df$survival
 
 df = na.omit(df)
 
@@ -38,10 +38,10 @@ white_female_df = df[df$category == 3,]
 black_male_df = df[df$category == 2,]
 black_female_df = df[df$category == 1,]
 
-white_male_df$f2 = white_male_df$f/sum(white_male_df$f)
-white_female_df$f2 = white_female_df$f/sum(white_female_df$f)
-black_male_df$f2 = black_male_df$f/sum(black_male_df$f)
-black_female_df$f2 = black_female_df$f/sum(black_female_df$f)
+white_male_df$pmf2 = white_male_df$pmf/sum(white_male_df$pmf)
+white_female_df$pmf2 = white_female_df$pmf/sum(white_female_df$pmf)
+black_male_df$pmf2 = black_male_df$pmf/sum(black_male_df$pmf)
+black_female_df$pmf2 = black_female_df$pmf/sum(black_female_df$pmf)
 ###################### Survival plot
 opar <- par(no.readonly = TRUE)
 
@@ -100,8 +100,8 @@ on.exit(par(opar))
 
 ############################### pmf plot
 
-min_y <- min(white_male_df$f2, white_female_df$f2, black_male_df$f2, black_female_df$f2)
-max_y <- max(white_male_df$f2, white_female_df$f2, black_male_df$f2, black_female_df$f2)
+min_y <- min(white_male_df$pmf2, white_female_df$pmf2, black_male_df$pmf2, black_female_df$pmf2)
+max_y <- max(white_male_df$pmf2, white_female_df$pmf2, black_male_df$pmf2, black_female_df$pmf2)
 max_y_padded <- max_y * 1.05 # Increase by 5%
 min_y_padded <- min_y * 0.95 # Decrease by 5% (be careful if min_y is 0 or negative)
 # A safer way to pad:
@@ -116,18 +116,18 @@ par(mar = c(5, 4, 4, 9), xpd = TRUE)
 
 # Create the plot
 
-plot(white_male_df$age, white_male_df$f2, type = "l", lty = 1, 
+plot(white_male_df$age, white_male_df$pmf2, type = "l", lty = 1, 
      ylab='f', xlab='age', ylim = c(min_y_padded, max_y_padded), col='blue')
-# points(white_male_df$age, white_male_df$f2, type = "l", lty = 1)
+# points(white_male_df$age, white_male_df$pmf2, type = "l", lty = 1)
 
-# points(white_female_df$age, white_female_df$f, type = "l", lty = 2)
-points(white_female_df$age, white_female_df$f2, type = "l", lty = 2, col='blue')
+# points(white_female_df$age, white_female_df$pmf, type = "l", lty = 2)
+points(white_female_df$age, white_female_df$pmf2, type = "l", lty = 2, col='blue')
 
-# points(black_male_df$age, black_male_df$f, type = "l", lty = 1, col='red')
-points(black_male_df$age, black_male_df$f2, type = "l", lty = 1, col='red')
+# points(black_male_df$age, black_male_df$pmf, type = "l", lty = 1, col='red')
+points(black_male_df$age, black_male_df$pmf2, type = "l", lty = 1, col='red')
 
-# points(black_female_df$age, black_female_df$f, type = "l", lty = 2, col='red')
-points(black_female_df$age, black_female_df$f2, type = "l", lty = 2, col='red')
+# points(black_female_df$age, black_female_df$pmf, type = "l", lty = 2, col='red')
+points(black_female_df$age, black_female_df$pmf2, type = "l", lty = 2, col='red')
 
 # Add the legend to the right, outside the plot area
 legend("topright",
@@ -147,19 +147,19 @@ n = 2000
 white_male_samples <- sample(x = white_male_df$age, 
                              size = n, 
                              replace = TRUE, 
-                             prob = white_male_df$f)
+                             prob = white_male_df$pmf)
 white_female_samples <- sample(x = white_female_df$age, 
                                size = n, 
                                replace = TRUE, 
-                               prob = white_female_df$f)
+                               prob = white_female_df$pmf)
 black_male_samples <- sample(x = black_male_df$age, 
                              size = n, 
                              replace = TRUE, 
-                             prob = black_male_df$f)
+                             prob = black_male_df$pmf)
 black_female_samples <- sample(x = black_female_df$age, 
                                size = n, 
                                replace = TRUE, 
-                               prob = black_female_df$f)
+                               prob = black_female_df$pmf)
 
 sample_df  <- data.frame(
   age = c(white_male_samples, white_female_samples,
@@ -285,6 +285,8 @@ mu_matrix <- matrix(data = pos_mu, ncol = K, byrow = TRUE)
 sd_matrix <- matrix(data = pos_sd, ncol = K, byrow = TRUE)
 omega_matrix <- matrix(data = pos_omega, ncol = K, byrow = TRUE)
 
+omega_matrix
+
 ################################################################ Plotting pdf
 
 dnorm_mixture <- function(x, mu, sd, w) {
@@ -389,3 +391,89 @@ legend("topright",
 
 # Restore original graphical parameters
 on.exit(par(opar))
+
+################################################################ Integrated square error
+
+row_wise_pdf <- function(x, mu, sd, w) {
+  rowSums(w * dnorm(x, mean = mu, sd = sd))
+}
+
+df$pdf <- row_wise_pdf(x=df$age, 
+                 mu = mu_matrix[df$category,], 
+                 sd = sd_matrix[df$category,], 
+                 w = omega_matrix[df$category,])
+
+dx= 1 # bin_width
+
+ise = sum(((df$pdf - df$pmf)^2)*dx)
+ise
+
+################################################################ kl divergence
+
+kld = sum(df$pmf*log(df$pmf/df$pdf))
+kld
+
+
+################################################################ total variation distance
+
+tvd = sum(abs(df$pdf - df$pmf)*dx)/2
+tvd
+
+
+################################################################  visual diagnostics
+
+################################################################  bar pmf vs line pdf
+
+wm_df = df[df$category == 4,]
+wf_df = df[df$category == 3,]
+bm_df = df[df$category == 2,]
+bf_df = df[df$category == 1,]
+
+par(mar = c(5, 4, 4, 10), xpd = TRUE)
+######## white male
+plot(wm_df$age, wm_df$pmf, type="h", col="blue", lwd=2, ylim=c(0,0.06), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "White Male")
+lines(wm_df$age, wm_df$pdf, type='l', col="blue", lwd=2, lty=1)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("blue", "blue"), 
+       lty=c(1,1))
+
+######## white female
+plot(wf_df$age, wf_df$pmf, type="h", col="blue", lwd=2, ylim=c(0,0.06), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "White Female")
+lines(wf_df$age, wf_df$pdf, type='l', col="blue", lwd=2, lty=2)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("blue", "blue"), 
+       lty=c(1,2))
+
+######## black male
+plot(bm_df$age, bm_df$pmf, type="h", col="red", lwd=2, ylim=c(0,0.06), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "Black Male")
+lines(bm_df$age, bm_df$pdf, type='l', col="red", lwd=2, lty=1)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("red", "red"), 
+       lty=c(1,1))
+
+######## black female
+plot(bf_df$age, bf_df$pmf, type="h", col="red", lwd=2, ylim=c(0,0.06), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "Black Female")
+lines(bf_df$age, bf_df$pdf, type='l', col="red", lwd=2, lty=2)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("red", "red"), 
+       lty=c(1,2))
+
+################################################################  
+plot(df$age, df$pmf, type="h", col="blue", lwd=2)
+lines(df$age, df$pdf, col="red", lwd=2)
+
+
+
+legend("topright", legend=c("True PMF", "Estimated PDF"), col=c("blue", "red"), lty=1)
