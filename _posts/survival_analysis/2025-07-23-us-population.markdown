@@ -31,7 +31,7 @@ head(df)
 The [survival curve]({{ "/survival/2025/07/23/background#survival_function" | relative_url }}) give by the U.S. Department of Health and Human Services is shown in [fig(1)]({{ "/survival/2025/07/23/us-population#fig1" | relative_url }})
 
 <div id="fig1" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/survival_curve.svg" width="100%" style="margin:17px;"> </div>
-*Figure 1: a survival curve with time $t$ by race and gender.*
+<div  align='center'><i> Figure 1: a survival curve with time $t$ by race and gender. </i></div>
 
 Similar to [example(1)]({{ "/survival/2025/07/23/background#example1" | relative_url }}) the data provided here is discrete. It is defined for finite quantum of time i.e. for each year.
 
@@ -61,7 +61,7 @@ df <- df %>%
 ```
 
 <div id="fig2" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/pmf_curve.svg" width="100%" style="margin:17px;"> </div>
-*Figure 2: pmf with time $t$ by race and gender.*
+<div  align='center'><i> Figure 2: pmf with time $t$ by race and gender.</i></div>
 
 pmf is non-zero for each value in it's discrete set of value $\{x_1, x_2, ..., x_n\}$ and 0 otherwise. However, it is not necessary that deaths occur at finite intervals. Therefore, we are looking to find the continuous distribution that represents the pdf of survival. We will do this by fitting a parametric mixture model using bayesian MCMC process. From [fig(2)]({{ "/survival/2025/07/23/us-population#fig2" | relative_url }}) we see that the probability distribution is bath-tub shaped. Bath-tub shaped curves are common when we follow the survival rate from birth. This is also typical in applications such as modeling survival of manufacturing equipments. This shows the higher chance of deaths in population in the early stages due to infant mortality, followed by a constant rate until eventual increase in hazard rate due to natural aging process.
 
@@ -82,7 +82,7 @@ Hazard is defined as ratio between pdf and the surival i.e. $\lambda(x) = \frac{
 df$lambda = df$f/df$survival
 ```
 <div id="fig3" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/hazard_curve.svg" width="100%" style="margin:17px;"> </div>
-*Figure 3: hazard with time $t$ by race and gender.*
+<div  align='center'><i> Figure 3: hazard with time $t$ by race and gender. </i></div>
 
 ## Data sampling
 
@@ -129,7 +129,7 @@ sample_df  <- data.frame(
 [fig(4)]({{ "/survival/2025/07/23/us-population#fig4" | relative_url }}) shows the density plot of the sampled data.
 
 <div id="fig4" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/pdf_density.svg" width="100%" style="margin:17px;"> </div>
-*Figure 4: density plot with time $t$ by race and gender.*
+<div  align='center'><i> Figure 4: density plot with time $t$ by race and gender. </i></div>
 
 [fig(5)]({{ "/survival/2025/07/23/us-population#fig5" | relative_url }}) shows the histogram plot of the sampled data.
 
@@ -143,7 +143,7 @@ sample_df  <- data.frame(
     <p style="margin-top: 5px;">(b)</p>
   </div>
 </div>
-*Figure 5: (a) histogram with time $t$ by race and gender. (b) histogram in log scale with time $t$ by race and gender.*
+<div  align='center'><i> Figure 5: (a) histogram with time $t$ by race and gender. (b) histogram in log scale with time $t$ by race and gender.</i></div>
 
 ## Mixture model
 
@@ -215,7 +215,7 @@ Following is some of the prior beliefs of our model:
 [fig(6)]({{ "/survival/2025/07/23/us-population#fig6" | relative_url }}) shows how mixture component $k$ of each group $j=1,..,4$  share same priors $m_k$ & $s_k$
 
 <div id="fig6" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/us-survival-hierarchical-model3.svg" width="100%" style="margin:17px;"> </div>
-*Figure 6: Graphical representation of the hierarchical model in [defn(1)]({{ "/survival/2025/07/23/us-population#defn1" | relative_url }}).*
+<div  align='center'><i> Figure 6: Graphical representation of the hierarchical model. </i></div>
 
 ### RJAGS model definition
 
@@ -306,7 +306,8 @@ mod1_sim = coda.samples(model=mod1,
 mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 ```
 ## Results
-### $\mu$
+### Mean - $\mu$
+
 |   category   | $\mu_{infant}$ | $\mu_{youth}$ | $\mu_{aging}$ | 
 |:------------:|:--------------:|:-------------:|:-------------:|
 | Black Female |   1.082024     |  57.88787     |  77.03880     |
@@ -316,7 +317,7 @@ mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 
 <div id="table1" align='center'><i> Table 1: Estimated posterior means of the mixture models.</i></div>
 
-### $\sigma$
+### Standard Deviation - $\sigma$
 
 |   category   | $\sigma_{infant}$ | $\sigma_{youth}$ | $\sigma_{aging}$ | 
 |:------------:|:-----------------:|:----------------:|:----------------:|
@@ -327,7 +328,7 @@ mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 
 <div id="table2" align='center'><i> Table 2: Estimated posterior standard deviations of the mixture models.</i></div>
 
-### $\omega$
+### Mixture weightage - $\omega$
 
 |   category   | $\omega_{infant}$ | $\omega_{youth}$ | $\omega_{aging}$ | 
 |:------------:|:-----------------:|:----------------:|:----------------:|
@@ -339,12 +340,12 @@ mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 <div id="table2" align='center'><i> Table 2: Estimated posterior weights of the mixture models.</i></div>
 
 <div id="fig7" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/posterior_pdf.svg" width="100%" style="margin:17px;"> </div>
-*Figure 7: Estimated posterior pdf of the mixture model.*
+<div  align='center'><i> Figure 7: Estimated posterior pdf of the mixture model. </i></div>
 
 <div id="fig8" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/posterior_survival.svg" width="100%" style="margin:17px;"> </div>
-*Figure 8: Estimated posterior survival of the mixture model.*
+<div  align='center'><i> Figure 8: Estimated posterior survival of the mixture model. </i></div>
 
 <div id="fig9" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/posterior_hazard.svg" width="100%" style="margin:17px;"> </div>
-*Figure 9: Estimated posterior hazard of the mixture model.*
+<div  align='center'><i> Figure 9: Estimated posterior hazard of the mixture model. </i></div>
 
 From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we can see that estimates are consistent with our original pmfs. [fig(8)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) & [fig(9)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) shows highest hazard associated with black male, comparable hazard for white male and black female and least hazard with white female.
