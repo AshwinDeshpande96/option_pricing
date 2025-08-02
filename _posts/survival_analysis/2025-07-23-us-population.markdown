@@ -383,7 +383,7 @@ From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we
     <p style="margin-top: 5px;">(a)</p>
   </div>
   <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
-    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_male_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_female_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
     <p style="margin-top: 5px;">(b)</p>
   </div>
   <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
@@ -401,5 +401,32 @@ From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we
   (b) White Female pmf vs pdf
   (c) Black Male pmf vs pdf
   (d) Black Female pmf vs pdf</i>
+</div>
 
+* **Cumulative Bar plot pmf vs Line plot pdf**
+
+<div id="fig10" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/wm_cum_f_vs_p.svg" alt="Image 1" style="width: 100%;">
+    <p style="margin-top: 5px;">(a)</p>
+  </div>
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/wf_cum_f_vs_p.svg" alt="Image 2" style="width: 100%;">
+    <p style="margin-top: 5px;">(b)</p>
+  </div>
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/bm_cum_f_vs_p.svg" alt="Image 2" style="width: 100%;">
+    <p style="margin-top: 5px;">(c)</p>
+  </div>
+  <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/bf_cum_f_vs_p.svg" alt="Image 2" style="width: 100%;">
+    <p style="margin-top: 5px;">(d)</p>
+  </div>
+</div>
+
+<div align="center">
+  <i>Figure 5: (a) White Male cumulative pmf vs pdf
+  (b) White Female cumulative pmf vs pdf
+  (c) Black Male cumulative pmf vs pdf
+  (d) Black Female cumulative pmf vs pdf</i>
 </div>
