@@ -49,13 +49,13 @@ Similar to [example(1)]({{ "/survival/2025/07/23/background#example1" | relative
 We are interested in modeling the underlying the *pdf* of survival. We are able obtain the discrete *pmf* by simply taking the difference of consecutive survival function values: $S(t-1) - S(t)$. [fig(2)]({{ "/survival/2025/07/23/us-population#fig2" | relative_url }}) represents the underlying discrete pmf of survival.
 
 ```R
-df$f <- NA
+df$pmf <- NA
 
 df <- df %>%
   arrange(race_gender, age) %>%  # Ensure correct order within each group
   group_by(race_gender) %>%
   mutate(
-    f = lag(survival) - survival  # S(t-1) - S(t)
+    pmf = lag(survival) - survival  # S(t-1) - S(t)
   ) %>%
   ungroup()
 ```
@@ -65,7 +65,7 @@ df <- df %>%
 
 pmf is non-zero for each value in it's discrete set of value $\{x_1, x_2, ..., x_n\}$ and 0 otherwise. However, it is not necessary that deaths occur at finite intervals. Therefore, we are looking to find the continuous distribution that represents the pdf of survival. We will do this by fitting a parametric mixture model using bayesian MCMC process. From [fig(2)]({{ "/survival/2025/07/23/us-population#fig2" | relative_url }}) we see that the probability distribution is bath-tub shaped. Bath-tub shaped curves are common when we follow the survival rate from birth. This is also typical in applications such as modeling survival of manufacturing equipments. This shows the higher chance of deaths in population in the early stages due to infant mortality, followed by a constant rate until eventual increase in hazard rate due to natural aging process.
 
-Let's divide the data among different race and gender categories since each group has their own pmfs.
+Let's divide the data among different race and gender categories since each group have their own pmfs.
 
 ```R
 white_male_df = df[df$category == 4,]
@@ -79,33 +79,33 @@ black_female_df = df[df$category == 1,]
 Hazard is defined as ratio between pdf and the surival i.e. $\lambda(x) = \frac{f(x)}{S(x)}$. [fig(3)]({{ "/survival/2025/07/23/us-population#fig3" | relative_url }}) shows that males have higher hazard during infancy, followed by a hazard that constant and similar to all categories until age 15. Thereafter, the hazard diverge with males seeing higher hazard, especially in black males. Black female and white males have comparable hazard rate until age 65. White females have the least hazard throughout their lifetime.
 
 ```R
-df$lambda = df$f/df$survival
+df$lambda = df$pmf/df$survival
 ```
 <div id="fig3" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/hazard_curve.svg" width="100%" style="margin:17px;"> </div>
 <div  align='center'><i> Figure 3: hazard with time $t$ by race and gender. </i></div>
 
 ## Data sampling
 
-Using the pmf we can sample data that represents deaths at different ages weighted by their pmf. We sample n data points for each of the categories and join in a dataframe *sample_df*. It's preferable to keep sample size during experimentation. The sample size starts with 500 during modeling and increased to 2000 for final training.
+Using the pmf we can sample data that represents deaths at different ages weighted by their pmf. We sample n data points for each of the categories and join in a dataframe *sample_df*. It's preferable to keep sample size small during experimentation. The sample size starts with 500 during modeling and increased to 2000 for final training.
 
 ```R
 n = 2000
 white_male_samples <- sample(x = white_male_df$age, 
                              size = n, 
                              replace = TRUE, 
-                             prob = white_male_df$f)
+                             prob = white_male_df$pmf)
 white_female_samples <- sample(x = white_female_df$age, 
                                size = n, 
                                replace = TRUE, 
-                               prob = white_female_df$f)
+                               prob = white_female_df$pmf)
 black_male_samples <- sample(x = black_male_df$age, 
                              size = n, 
                              replace = TRUE, 
-                             prob = black_male_df$f)
+                             prob = black_male_df$pmf)
 black_female_samples <- sample(x = black_female_df$age, 
                                size = n, 
                                replace = TRUE, 
-                               prob = black_female_df$f)
+                               prob = black_female_df$pmf)
 
 sample_df  <- data.frame(
   age = c(white_male_samples, white_female_samples,
@@ -189,7 +189,7 @@ $$
 Following is some of the prior beliefs of our model:
 
 * **$\mu$s share priors for an age group**: The survival of an age group share the same priors - $m_k$ & $s_k$ across race and gender categories.
-    * The expect normal peak(mean) for 
+    * The prior estimate of normal peak(mean) for 
         * infant $\approx$ 0
         * youth $\approx$ betwen 15 and 85
         * aging $\approx$ 85
@@ -199,7 +199,7 @@ Following is some of the prior beliefs of our model:
     * Additionally, the means do not diverge so far as to mistake survival of age group $k$ to that of $k+1$
 
 * **independent priors for $\sigma$s**: the shape of pdfs are different for each category, hence the volatility spread is given a vague prior
-    * The expected volatility spread for 
+    * The prior estimate of volatility spread for 
         * infant is moderate
         * youth is large: normal $\rightarrow$ uniform as $\sigma \rightarrow \infty$
         * aging is lowest: we need a sharp peak corresponding to increasing hazard within aging population.
@@ -435,6 +435,6 @@ From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we
 
 ## Conclusion
 
-* The estimated posterior mixture are good for comparative studies between the race and gender categories. However,  we can see from [fig(10)]({{ "/survival/2025/07/23/us-population#fig10" | relative_url }}) that pdf estimate are not exact. This happens because the data available is truncated between [1,85] -- this doesn't mean that death do not occur after 85, infact the hazard increased more steeply further in age we go. Due to lack of this data and symmetry of normal distributions - particularly the $\text{pdf}_{aging}$ finds paramaters mean and standard deviation so as to find maximum overlap with the truncated data. This pushes the mean below the true peak since it cannot assume the additional data not provided. One way to deal with this issues is use truncation that can cut a normal distribution such that it's mean lies outside given data. This however tends to unstable and difficult to converge for the MCMC process.
+* The estimated posterior mixture are good for comparative studies between the race and gender categories. However,  we can see from [fig(10)]({{ "/survival/2025/07/23/us-population#fig10" | relative_url }}) that pdf estimate are not exact. This happens because the data available is truncated between [1,85] -- this doesn't mean that death do not occur after 85, infact the hazard increased more steeply further in age we go. Due to lack of this data and symmetry of normal distributions - particularly the $\text{pdf}_{aging}$ finds paramaters mean and standard deviation such that the distribution finds maximum overlap with the truncated data. This pushes the mean below the true peak since it cannot assume the additional data not provided. One way to deal with this issues is use truncation that can cut a normal distribution such that it's mean lies outside given data. This however tends to unstable and difficult to converge for the MCMC process.
 * Additional ideas include using different distributions that allow non-symmetry, such as Weibull or Gamma distributions. They would still require truncation to account for the missing data.
 * We are thus able to fit a pdf that is capable of answer question such as "Are black men more likely to survive past 65 as compared to white men?" $\rightarrow S_{Black Male}(X=65) > S_{White Male}(X=65)$
