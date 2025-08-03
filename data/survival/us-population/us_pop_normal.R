@@ -21,7 +21,7 @@ df = na.omit(df)
 
 df_grouped_fsum <- df %>%
   group_by(category) %>%
-  summarise(total_value = sum(f))
+  summarise(total_value = sum(pmf))
 
 df_grouped_age_max <- df %>%
   group_by(category) %>%
@@ -178,7 +178,7 @@ library("rjags")
 mod1_string = "
 model {
     for (i in 1:N) {
-      y[i] ~ dnorm(mu[category[i], z[i]], prec[category[i], z[i]]) 
+      y[i] ~ dnorm(mu[category[i], z[i]], prec[category[i], z[i]])
       z[i] ~ dcat(omega[category[i], ])
     }
 
@@ -285,6 +285,8 @@ mu_matrix <- matrix(data = pos_mu, ncol = K, byrow = TRUE)
 sd_matrix <- matrix(data = pos_sd, ncol = K, byrow = TRUE)
 omega_matrix <- matrix(data = pos_omega, ncol = K, byrow = TRUE)
 
+mu_matrix
+sd_matrix
 omega_matrix
 
 ################################################################ Plotting pdf
@@ -403,31 +405,48 @@ df$pdf <- row_wise_pdf(x=df$age,
                  sd = sd_matrix[df$category,], 
                  w = omega_matrix[df$category,])
 
-dx= 1 # bin_width
-
-ise = sum(((df$pdf - df$pmf)^2)*dx)
-ise
-
-################################################################ kl divergence
-
-kld = sum(df$pmf*log(df$pmf/df$pdf))
-kld
-
-
-################################################################ total variation distance
-
-tvd = sum(abs(df$pdf - df$pmf)*dx)/2
-tvd
-
-
-################################################################  visual diagnostics
-
-################################################################  bar pmf vs line pdf
+df2 = df[order(df$age), ]
 
 wm_df = df[df$category == 4,]
 wf_df = df[df$category == 3,]
 bm_df = df[df$category == 2,]
 bf_df = df[df$category == 1,]
+
+dx= 1 # bin_width
+
+ise = sum(((df$pdf - df$pmf)^2)*dx)
+
+wm_ise = sum(((wm_df$pdf - wm_df$pmf)^2)*dx)
+wf_ise = sum(((wf_df$pdf - wf_df$pmf)^2)*dx)
+bm_ise = sum(((bm_df$pdf - bm_df$pmf)^2)*dx)
+bf_ise = sum(((bf_df$pdf - bf_df$pmf)^2)*dx)
+
+c(ise, wm_ise, wf_ise, bm_ise, bf_ise)
+
+################################################################ kl divergence
+
+kld = sum(df$pmf*log(df$pmf/df$pdf))
+
+wm_kld = sum(wm_df$pmf*log(wm_df$pmf/wm_df$pdf))
+wf_kld = sum(wf_df$pmf*log(wf_df$pmf/wf_df$pdf))
+bm_kld = sum(bm_df$pmf*log(bm_df$pmf/bm_df$pdf))
+bf_kld = sum(bf_df$pmf*log(bf_df$pmf/bf_df$pdf))
+
+c(kld, wm_kld, wf_kld, bm_kld, bf_kld)
+
+################################################################ total variation distance
+
+tvd = sum(abs(df$pdf - df$pmf)*dx)/2
+
+wm_tvd = sum(abs(wm_df$pdf - wm_df$pmf)*dx)/2
+wf_tvd = sum(abs(wf_df$pdf - wf_df$pmf)*dx)/2
+bm_tvd = sum(abs(bm_df$pdf - bm_df$pmf)*dx)/2
+bf_tvd = sum(abs(bf_df$pdf - bf_df$pmf)*dx)/2
+
+c(tvd, wm_tvd, wf_tvd, bm_tvd, bf_tvd)
+################################################################  visual diagnostics
+
+################################################################  bar pmf vs line pdf
 
 par(mar = c(5, 4, 4, 10), xpd = TRUE)
 ######## white male
@@ -470,10 +489,46 @@ legend("topright",
        col=c("red", "red"), 
        lty=c(1,2))
 
-################################################################  
-plot(df$age, df$pmf, type="h", col="blue", lwd=2)
-lines(df$age, df$pdf, col="red", lwd=2)
+################################################################  cumsum pmf vs pdf
+par(mar = c(5, 4, 4, 10), xpd = TRUE)
 
+######## white male
+plot(wm_df$age, cumsum(wm_df$pmf), type="h", col="blue", lwd=2, ylim=c(0,1), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "White Male")
+lines(wm_df$age, cumsum(wm_df$pdf), type='l', col="blue", lwd=2, lty=1)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("blue", "blue"), 
+       lty=c(1,1))
 
+######## white female
+plot(wf_df$age, cumsum(wf_df$pmf), type="h", col="blue", lwd=2, ylim=c(0,1.0), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "White Female")
+lines(wf_df$age, cumsum(wf_df$pdf), type='l', col="blue", lwd=2, lty=2)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("blue", "blue"), 
+       lty=c(1,2))
 
-legend("topright", legend=c("True PMF", "Estimated PDF"), col=c("blue", "red"), lty=1)
+######## black male
+plot(bm_df$age, cumsum(bm_df$pmf), type="h", col="red", lwd=2, ylim=c(0,1.0), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "Black Male")
+lines(bm_df$age, cumsum(bm_df$pdf), type='l', col="red", lwd=2, lty=1)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("red", "red"), 
+       lty=c(1,1))
+
+######## black female
+plot(bf_df$age, cumsum(bf_df$pmf), type="h", col="red", lwd=2, ylim=c(0,1.0), lty=1,
+     ylab='pmf vs pdf', xlab='age', main = "Black Female")
+lines(bf_df$age, cumsum(bf_df$pdf), type='l', col="red", lwd=2, lty=2)
+legend("topright", 
+       inset = c(-0.4, 0),
+       legend=c("True PMF", "Estimated PDF"), 
+       col=c("red", "red"), 
+       lty=c(1,2))
+

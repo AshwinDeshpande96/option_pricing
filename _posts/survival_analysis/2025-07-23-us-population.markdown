@@ -253,7 +253,6 @@ model {
 }
 "
 ```
-
 * z[i] is determined with a Categorical distribution that chooses highest probability group among $K$ age groups.
     * for example:
         * $ \boldsymbol{\omega} =  [0.5, 0.25, 0.25] \rightarrow$ 1
@@ -305,6 +304,9 @@ mod1_sim = coda.samples(model=mod1,
 
 mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 ```
+
+Full simulation results: [here]({{ "data/survival/us-population/jags_normal_sim.csv" | relative_url }})
+
 ## Results
 ### Mean - $\mu$
 
@@ -348,7 +350,7 @@ mod1_csim = as.mcmc(do.call(rbind, mod1_sim))
 <div id="fig9" style="text-align:center"> <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/posterior_hazard.svg" width="100%" style="margin:17px;"> </div>
 <div  align='center'><i> Figure 9: Estimated posterior hazard of the mixture model. </i></div>
 
-From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we can see that estimates are consistent with our original pmfs. [fig(8)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) & [fig(9)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) shows highest hazard associated with black male, comparable hazard for white male and black female and least hazard with white female.
+From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we can see that estimates are consistent with our original pmfs. [fig(8)]({{ "/survival/2025/07/23/us-population#fig8" | relative_url }}) & [fig(9)]({{ "/survival/2025/07/23/us-population#fig9" | relative_url }}) shows highest hazard associated with black male, comparable hazard for white male and black female and least hazard with white female.
 
 ### Performance
 
@@ -379,25 +381,25 @@ From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we
 
 <div id="fig10" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
   <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
-    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_male_pmf_vs_pdf.svg" alt="Image 1" style="width: 100%;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_male_pdf_vs_pmf.svg" alt="Image 1" style="width: 100%;">
     <p style="margin-top: 5px;">(a)</p>
   </div>
   <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
-    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_female_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/white_female_pdf_vs_pmf.svg" alt="Image 2" style="width: 100%;">
     <p style="margin-top: 5px;">(b)</p>
   </div>
   <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
-    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/black_male_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/black_male_pdf_vs_pmf.svg" alt="Image 2" style="width: 100%;">
     <p style="margin-top: 5px;">(c)</p>
   </div>
   <div style="flex: 1 1 calc(50% - 10px); text-align: center;">
-    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/black_female_pmf_vs_pdf.svg" alt="Image 2" style="width: 100%;">
+    <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/survival/us-population/black_female_pdf_vs_pmf.svg" alt="Image 2" style="width: 100%;">
     <p style="margin-top: 5px;">(d)</p>
   </div>
 </div>
 
 <div align="center">
-  <i>Figure 5: (a) White Male pmf vs pdf
+  <i>Figure 10: (a) White Male pmf vs pdf
   (b) White Female pmf vs pdf
   (c) Black Male pmf vs pdf
   (d) Black Female pmf vs pdf</i>
@@ -425,8 +427,14 @@ From [fig(7)]({{ "/survival/2025/07/23/us-population#fig7" | relative_url }}) we
 </div>
 
 <div align="center">
-  <i>Figure 5: (a) White Male cumulative pmf vs pdf
+  <i>Figure 11: (a) White Male cumulative pmf vs pdf
   (b) White Female cumulative pmf vs pdf
   (c) Black Male cumulative pmf vs pdf
   (d) Black Female cumulative pmf vs pdf</i>
 </div>
+
+## Conclusion
+
+* The estimated posterior mixture are good for comparative studies between the race and gender categories. However,  we can see from [fig(10)]({{ "/survival/2025/07/23/us-population#fig10" | relative_url }}) that pdf estimate are not exact. This happens because the data available is truncated between [1,85] -- this doesn't mean that death do not occur after 85, infact the hazard increased more steeply further in age we go. Due to lack of this data and symmetry of normal distributions - particularly the $\text{pdf}_{aging}$ finds paramaters mean and standard deviation so as to find maximum overlap with the truncated data. This pushes the mean below the true peak since it cannot assume the additional data not provided. One way to deal with this issues is use truncation that can cut a normal distribution such that it's mean lies outside given data. This however tends to unstable and difficult to converge for the MCMC process.
+* Additional ideas include using different distributions that allow non-symmetry, such as Weibull or Gamma distributions. They would still require truncation to account for the missing data.
+* We are thus able to fit a pdf that is capable of answer question such as "Are black men more likely to survive past 65 as compared to white men?" $\rightarrow S_{Black Male}(X=65) > S_{White Male}(X=65)$
