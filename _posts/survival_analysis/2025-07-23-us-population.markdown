@@ -264,6 +264,13 @@ model {
     * $\mu_3 = \mu_2 + \mu_{raw, 3}$
 * Normal prior for $\mu$ with large variance ensure no prior beliefs about the means of age groups. We could instead use a Gamma distribution or truncation T(0, ) to ensure $\mu_{raw}$ remain positive.
 * Similarly, variances follow inverse gamma, which ensures a non-negative support and a likelihood for moderate variance.
+  * Truncation ensures that $f_T(x)$ integrates to 1. Truncation modifies the pdf as follows
+  
+    $$f_T(x|a,b) = \frac{f(x)}{P(a \leq X \leq b)}$$
+
+  * The truncation for normal distribution is defined as
+
+    $$f_T(x|a,b) = = \frac{f(x)}{\phi\left(\frac{b-\mu}{\sigma}\right) - \phi\left(\frac{a-\mu}{\sigma}\right)}$$
 
 ```R
 set.seed(11)
