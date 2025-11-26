@@ -9,7 +9,7 @@ layout: home
 
 Welcome! My name is Ashwin Deshpande. I am a Data Scientist and an independent researcher currently working on pricing financial instruments using mathematical models. See posts section to read my latest articles. You will find notes on financial/math concepts as well as paper reviews.
 
-**Click here for my [C.V.](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/cv.pdf)**
+**Click here for my [resume](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/resume.pdf)**
 
 
 <br clear="all">

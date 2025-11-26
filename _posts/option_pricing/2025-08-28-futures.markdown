@@ -11,7 +11,7 @@ hidden: true
 
 Forward contracts are primarily traded over-the-counter (OTC) agreements and therefore have two issues:
 * **Counterparty risk**: Since P&L accumulate over the life of the contract they are not realized until the maturity date. This exposes both parties with significant counterparty risk - the risk that one of the party will default on it's part of the obligation.
-* **Delay in settlement**: as forward contract is an agreement is to trade underlying asset at maturity date, we are unable to use agreed cash or asset until maturity.
+* **Delay in settlement**: as forward contract is an agreement to trade underlying asset at maturity date, we are unable to use agreed cash or asset until maturity.
 
 This is solved using futures contracts as follows:
 * **Clearinghouse** a middle party responsible for facilatiting futures exchanges significantly mitigates the risk of default. Clearinghouse also requires both parties to have a margin account - a minimum level of funds to be maintained. Hence, the risk of buyer/seller defaulting is manageable.
@@ -23,9 +23,12 @@ The final payment of the forward contract trade is given by the difference in sp
 
 We break the final forward contract payments down into a series of daily payments:
 
-<div id='futures-series'>Eq-1</div>
-
-$$\left[ F(t=1) - F(t=0) \right] + \left[ F(t=2) - F(t=1) \right] + ... + \left[ F(t=T) - F(t=T-1) \right] = S(T) - F(t=0)$$
+<div id='futures-series'></div>
+$$
+\begin{array}{ll}
+    \left[ F(t=1) - F(t=0) \right] + \left[ F(t=2) - F(t=1) \right] + ... + \left[ F(t=T) - F(t=T-1) \right] = S(T) - F(t=0) && \hfill \rightarrow eq(1)
+\end{array}
+$$
 
 Considering $F(t=T) = S(T)$ holds under no-arbitrage conditions. Equation-1 holds as we see that $F(x)$ $\forall x \in [1,T-1] $ cancels out, leaving $F(t=T) - F(t=0) = S(T) - F(t=0)$.  However, since this involves a different schedule of payments the law of one price no longer holds when we break down profits from forward contracts into a series of payments. This is due time-value of money as interest rates discount factors are applied differently. 
 

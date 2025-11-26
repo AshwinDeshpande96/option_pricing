@@ -268,9 +268,11 @@ model {
   
     $$f_T(x|a,b) = \frac{f(x)}{P(a \leq X \leq b)}$$
 
-  * The truncation for normal distribution is defined as
+  * The truncation for normal distribution is defined as 
 
-    $$f_T(x|a,b) = = \frac{f(x)}{\phi\left(\frac{b-\mu}{\sigma}\right) - \phi\left(\frac{a-\mu}{\sigma}\right)}$$
+    $$f_T(x|a,b) = \frac{f(x)}{\phi\left(\frac{b-\mu}{\sigma}\right) - \phi\left(\frac{a-\mu}{\sigma}\right)}$$
+
+    * $\phi$(.) is cdf of standard normal.
 
 ```R
 set.seed(11)

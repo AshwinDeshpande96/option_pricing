@@ -25,17 +25,25 @@ schedule, their present value should be the same.
 ### Future Value
 
 If we have an annual interest rate *r%*, *PV* present value of a financial instrument compounding *n* times per year and holding it for *m* periods the future value *F* is given by
-<a style="text-align:right;" name="eq-fv">Equation (1)</a>,
+<a style="text-align:right;" name="eq-fv"></a>,
 
-$$F = PV \cdot \left(1 + \frac{r\%}{n} \right)^m$$
+$$
+\begin{array}{ll}
+    F = PV \cdot \left(1 + \frac{r\%}{n} \right)^m  && \hfill \rightarrow \text{eq(1)}
+\end{array}
+$$
 
 ### Forward rate
 
 If we invest in a 1-year (*m = 1*) bond and expect a single coupon per year *n=1* paying *F = 100* after 12-months from [Eq-1](#eq-fv) the fair value of bond should be PV
 
-We have <a style="text-align:right;" name="eq-df">Equation (2)</a>,
+We have <a style="text-align:right;" name="eq-df"></a>,
 
-$$ PV = \frac{100}{1 + r} $$
+$$
+\begin{array}{ll}
+     PV = \frac{100}{1 + r}  && \hfill \rightarrow eq(2)
+\end{array}
+$$
 
 If we have a product with maturity 2-years with r% interest payment once a year and an initial investment of \\$1 then we can expect a payoff of $(1+r\\%)\cdot(1+r\\%)$ or $(1+r\\%)^2$ compounded twice till maturity.
 
@@ -43,9 +51,13 @@ We define forward rate $f_{i,j}$ as follows:
 
 We have two products a *j*-year bond and a *i*-year bond ($j > i$) with interest rates $r_{j}$, $r_{i}$ compounding $n_{j}$, $n_{i}$ times a year respectively
 
-We have <a style="text-align:right;" name="eq-fr">Equation (3)</a>,
+We have<a style="text-align:right;" name="eq-fr"></a>,
 
-$$ \left( 1+\frac{r_{j}}{n_{j}}\right) ^ {j} = \left( 1+\frac{r_{i}}{n_{i}}\right) ^ {i} \cdot \left( 1+\frac{f_{i,j}}{n}\right) ^ {j-1} $$
+$$
+\begin{array}{ll}
+     \left( 1+\frac{r_{j}}{n_{j}}\right) ^ {j} = \left( 1+\frac{r_{i}}{n_{i}}\right) ^ {i} \cdot \left( 1+\frac{f_{i,j}}{n}\right) ^ {j-1}  && \hfill \rightarrow eq(3)
+\end{array}
+$$
 
 For example we have a 2-year & 1-year zero coupon bond, trading at \\$89 and \\$95 respectively, each compounding once a year. These are priced such that it equates to 1 quantity resulting in a face value $100 by maturity.  From [Eq(2)](#eq-dc)
 * $B1 \rightarrow 89 = \frac{100}{(1 + r_{2})^2} \Rightarrow r_{2} = 5.9998\\%$
