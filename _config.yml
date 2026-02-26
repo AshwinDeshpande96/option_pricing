@@ -66,3 +66,6 @@ header_pages:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+include:
+  - price_transmission
+  - price_transmission/shinylive

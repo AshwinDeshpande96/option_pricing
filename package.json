@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "puppeteer": "^24.15.0"
+    "puppeteer": "^24.15.0",
+    "staticrypt": "^3.5.4"
   }
 }

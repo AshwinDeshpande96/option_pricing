@@ -9,7 +9,13 @@ layout: home
 
 Welcome! My name is Ashwin Deshpande. I am a Data Scientist currently working at Reserve Bank of India, Department of Statistics & Information Management as a researcher. My current area of research area is Spatio-Temporal Price Transmission Analysis in Agricultural Commodity Markets in India. See posts section to read my latest articles. You will find notes on financial/math concepts as well as paper reviews.
 
-<!-- Check out my [Interactive Price Dashboard](./price_transmission/) -->
+Here is an interactive app to analyse price surges in Agricultural Commodity Markets. We look at Value at Risk, Conditional Value at Risk & Coniditional Variance based on ARMA-GARCH model 
+[Price Dashboard](./price_transmission/)
+
+Following are the dashboards for agricultural commodity retail price shock transmission at state level. Based on Bayesian VAR model we analyse shocks using Generalized Forecast Error Variance Decompositions (GFEVD) - [Diebold & Yilmaz (2012)](https://www.sciencedirect.com/science/article/abs/pii/S016920701100032X)
+* [Tomato](./tomato_gfevd/)
+* [Onion](./onion_gfevd/)
+* [Potato](./potato_gfevd/)
 
 **Click here for my [resume](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/resume.pdf)**
 
