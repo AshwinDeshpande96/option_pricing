@@ -13,9 +13,9 @@ Here is an interactive app to analyse price surges in Agricultural Commodity Mar
 [Price Dashboard](./price_transmission/)
 
 Following are the dashboards for agricultural commodity retail price shock transmission at state level. Based on Bayesian VAR model we analyse shocks using Generalized Forecast Error Variance Decompositions (GFEVD) - [Diebold & Yilmaz (2012)](https://www.sciencedirect.com/science/article/abs/pii/S016920701100032X)
-* [Tomato](./tomato_gfevd/)
-* [Onion](./onion_gfevd/)
-* [Potato](./potato_gfevd/)
+* [Tomato](./gfevd/tomato/)
+* [Onion](./gfevd/onion/)
+* [Potato](./gfevd/potato/)
 
 **Click here for my [resume](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/resume.pdf)**
 
