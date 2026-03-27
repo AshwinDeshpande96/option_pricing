@@ -12,7 +12,9 @@ Welcome! My name is Ashwin Deshpande. I am a Data Scientist currently working at
 Here is an interactive app to analyse price surges in Agricultural Commodity Markets. We look at Value at Risk, Conditional Value at Risk & Coniditional Variance based on ARMA-GARCH model 
 [Price Dashboard](./price_transmission/)
 
-Following are the dashboards for agricultural commodity retail price shock transmission at state level. Based on Bayesian VAR model we analyse shocks using Generalized Forecast Error Variance Decompositions (GFEVD) - [Diebold & Yilmaz (2012)](https://www.sciencedirect.com/science/article/abs/pii/S016920701100032X)
+Following are the dashboards for agricultural commodity retail price shock transmission at state level. 
+See [Quantile Regression](https://ashwindeshpande.shinyapps.io/onion/) dashboard for analysis of arrival quantity on commodity pricing.
+Based on Bayesian VAR model we analyse shocks using Generalized Forecast Error Variance Decompositions (GFEVD) - [Diebold & Yilmaz (2012)](https://www.sciencedirect.com/science/article/abs/pii/S016920701100032X)
 * [Tomato](./gfevd/tomato/)
 * [Onion](./gfevd/onion/)
 * [Potato](./gfevd/potato/)
