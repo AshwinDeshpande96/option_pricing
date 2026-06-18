@@ -7,7 +7,7 @@ layout: home
 
 <img src="https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/dp.jpeg" align="left" width="200" style="margin-right:16px;">
 
-Welcome! My name is Ashwin Deshpande. I am a Data Scientist currently working at Reserve Bank of India, Department of Statistics & Information Management as a researcher. My current area of research area is Spatio-Temporal Price Transmission Analysis in Agricultural Commodity Markets in India. See posts section to read my latest articles. 
+Welcome! My name is Ashwin Deshpande. I am a Data Scientist currently working at Reserve Bank of India, Department of Statistics & Information Management as a researcher. My current area of research is understanding rare price shocks and their impact on other markets. See posts section to read my latest articles. 
 
 **Click here for my [resume](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/resume.pdf)**
 
