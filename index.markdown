@@ -17,7 +17,7 @@ Welcome! My name is Ashwin Deshpande. I am a Data Scientist currently working at
 
 ## Publications
 
-* **How you say it matters: Measuring the impact of verbal disfluency tags on automated dementia detection** [PDF](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/onion_wp.pdf) [PPT](https://docs.google.com/presentation/d/17iU9Unwf6YA5xAjPPPyg7sdFnHYdsVwt12KDWoH0tYY/edit?usp=sharing)
+* **Spatial, Vertical, and Asymmetric Onion Price Transmission in India: Evidence from Quantile Nonlinear ARDL and Machine Learning Approaches** [PDF](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/onion_wp.pdf) [PPT](https://docs.google.com/presentation/d/17iU9Unwf6YA5xAjPPPyg7sdFnHYdsVwt12KDWoH0tYY/edit?usp=sharing)
     * A Deshpande, M Kulkarni, S Dhar, N Unnikrishan, S Kuruganti (working paper)
 
 * **How you say it matters: Measuring the impact of verbal disfluency tags on automated dementia detection** [PDF](https://aclanthology.org/2022.bionlp-1.4.pdf)
