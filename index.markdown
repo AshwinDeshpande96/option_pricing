@@ -17,10 +17,10 @@ Welcome! My name is Ashwin Deshpande. I am a Data Scientist currently working at
 
 ## Publications
 
-* **Spatial, Vertical, and Asymmetric Onion Price Transmission in India: Evidence from Quantile Nonlinear ARDL and Machine Learning Approaches** [PDF](https://raw.githubusercontent.com/AshwinDeshpande96/personal_webpage/refs/heads/op_course/data/onion_wp.pdf) [PPT](https://docs.google.com/presentation/d/17iU9Unwf6YA5xAjPPPyg7sdFnHYdsVwt12KDWoH0tYY/edit?usp=sharing)
-    * A Deshpande, M Kulkarni, S Dhar, N Unnikrishan, S Kuruganti (working paper)
+* **Spatial, Temporal, and Asymmetric Food Price Transmission in India: Empirical Analysis from Quantile Nonlinear ARDL Model** [PDF](https://drive.google.com/file/d/1t0ePLPr96Qf0Wv-EaI4i7viJSzmHD-Dz/view?usp=sharing) [PPT](https://drive.google.com/file/d/1DgdLaoyHVIlnuekJVvq3mcQJheYtxKS2/view?usp=drive_link)
+    * A Deshpande, S Dhar, M Kulkarni, N.K. Unnikrishan (working paper)
 
-* **How you say it matters: Measuring the impact of verbal disfluency tags on automated dementia detection** [PDF](https://aclanthology.org/2022.bionlp-1.4.pdf)
+* **How you say it matters: Measuring the impact of verbal disfluency tags on automated dementia detection** [PAPER](https://aclanthology.org/2022.bionlp-1.4/)
     * S Farzana, A Deshpande, N Parde (Proceedings of the 21st workshop on biomedical language processing, 37-48)
 
 ## Education
